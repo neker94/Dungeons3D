@@ -27,11 +27,11 @@
 *.out
 *.app
 
-cocos2d
-proj.android
-proj.ios_mac
-proj.linux
+.cocos2d
+.proj.android
+.proj.ios_mac
+.proj.linux
 proj.win32
-proj.wp9-xaml
+.proj.wp9-xaml
 .cocos-project.json
 CMakeLists.txt
