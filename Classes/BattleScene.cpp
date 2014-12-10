@@ -27,6 +27,70 @@ bool BattleScene::init(){
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
+	auto listener = EventListenerKeyboard::create();
+	listener->onKeyReleased = CC_CALLBACK_2(BattleScene::onKeyReleased, this);
+	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this); //Pone el generador de eventos en el 'receptor' de eventos
+
+	//Crea y muestra el menú
+	background_menu_sprite = cocos2d::Sprite::create();
+	background_menu_sprite->setTexture("menu/action_menu.png");
+	background_menu_sprite->setPosition(visibleSize.width / 2 , visibleSize.height / 2); 
+	this->addChild(background_menu_sprite, 1);
+
+
+	//Crea las imagenes de vida y cooldown del jugador
+	_healthBox = cocos2d::Sprite::create("menu/health_box.png");
+	_healthBox->setPosition(700, 585);
+	this->addChild(_healthBox, 3);
+	_health = cocos2d::Sprite::create("menu/health.png");
+	_health->setPosition(700, 585);
+	this->addChild(_health, 2);
+
+
+	_manaBox = cocos2d::Sprite::create("menu/health_box.png");
+	_manaBox->setPosition(700, 555);
+	this->addChild(_manaBox, 3);
+	_mana = cocos2d::Sprite::create("menu/mana.png");
+	_mana->setPosition(700, 555);
+	this->addChild(_mana, 2);
+	
+
+	//Crea las imágenes de los atributos de los ataques y de las defensas.
+	int originX = 625, originY = 500;
+	
+	for(int i = 0; i < sizeof(attack_attributes_image)/sizeof(*attack_attributes_image);i++){
+
+		attack_attributes_image[i] = cocos2d::Sprite::create();
+		attack_attributes_image[i]->setTexture("menu/attack_" + std::to_string(i) + ".png");
+		int displacementX = originX + attack_attributes_image[i]->getContentSize().height * 0;
+		int displacementY = originY - i * (attack_attributes_image[i]->getContentSize().height + attack_attributes_image[i]->getContentSize().height/4);
+		attack_attributes_image[i]->setPosition(displacementX, displacementY);
+
+		this->addChild(attack_attributes_image[i], 2);
+	}
+
+	for(int i = 0; i < sizeof(defense_attributes_image)/sizeof(*defense_attributes_image);i++){
+
+		defense_attributes_image[i] = cocos2d::Sprite::create();
+		defense_attributes_image[i]->setTexture("menu/defense_" + std::to_string(i) + ".png");
+		int displacementX = originX + defense_attributes_image[i]->getContentSize().height * 3;
+		int displacementY = originY - i * (defense_attributes_image[i]->getContentSize().height + defense_attributes_image[i]->getContentSize().height/4);
+		defense_attributes_image[i]->setPosition(displacementX, displacementY);
+
+		this->addChild(defense_attributes_image[i], 2);
+	}
+
+	return true;
+}
+
+void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event){
+	//Hace la accion correspondiente a la tecla pulsada
+	
+	if(keyCode == EventKeyboard::KeyCode::KEY_Q)
+		returnToMapScene(this);
+
 }
 
 void BattleScene::returnToMapScene(Ref *pSender){

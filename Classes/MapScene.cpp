@@ -1,5 +1,6 @@
 #include "MapScene.h"
 #include "BattleScene.h"
+#include "Global.h"
 #include <iostream>
 
 USING_NS_CC;
@@ -106,6 +107,7 @@ bool MapScene::init()
 	player_square->setPosition(Vec2(615+90, 289-90));
 	this->addChild(player_square, 2);
 
+	
 	//Crea y muestra el menú
 	background_menu_sprite = cocos2d::Sprite::create();
 	background_menu_sprite->setTexture("menu/background_menu.png");
@@ -128,6 +130,23 @@ bool MapScene::init()
 	left_button_p = MenuItemImage::create("menu/left_button.png", "menu/left_button.png", CC_CALLBACK_0(MapScene::rotateLeft, this));
 	right_button_p = MenuItemImage::create("menu/right_button.png", "menu/right_button.png", CC_CALLBACK_0(MapScene::rotateRight, this));
 	
+	//Crea las imagenes de vida y cooldown del jugador
+	_healthBox = cocos2d::Sprite::create("menu/health_box.png");
+	_healthBox->setPosition(700, 585);
+	this->addChild(_healthBox, 3);
+	_health = cocos2d::Sprite::create("menu/health.png");
+	_health->setPosition(700, 585);
+	this->addChild(_health, 2);
+
+
+	_manaBox = cocos2d::Sprite::create("menu/health_box.png");
+	_manaBox->setPosition(700, 555);
+	this->addChild(_manaBox, 3);
+	_mana = cocos2d::Sprite::create("menu/mana.png");
+	_mana->setPosition(700, 555);
+	this->addChild(_mana, 2);
+
+
 
 	//Crea las imágenes de los atributos de los ataques y de las defensas.
 	int originX = 625, originY = 500;
@@ -259,6 +278,7 @@ void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 
 void MapScene::goToBattleScene(Ref *pSender){
 	auto scene = BattleScene::createScene();
+
 
 	for (int i = 0; i < 3; i++)
 	{

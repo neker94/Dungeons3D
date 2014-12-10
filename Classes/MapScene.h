@@ -44,6 +44,12 @@ private:
 	cocos2d::Sprite *attack_attributes_image [6];
 	cocos2d::Sprite *defense_attributes_image [6];
 
+	cocos2d::Sprite *_health;
+	cocos2d::Sprite *_healthBox;
+
+	cocos2d::Sprite *_mana;
+	cocos2d::Sprite *_manaBox;
+
 	void rotateLeft();
 	void rotateRight();
 	void rotateHalf();

@@ -1,5 +1,5 @@
-#pragma once
-#include "Player.h"
+/*#pragma once
 
-Player player;
-const char* images[3];
+
+//extern Player player;
+const char* images[3];*/
