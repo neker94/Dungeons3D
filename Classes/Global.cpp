@@ -1,5 +1,5 @@
-/*#pragma once
+#pragma once
 
 
 //extern Player player;
-const char* images[3];*/
+//const char* images2[3];

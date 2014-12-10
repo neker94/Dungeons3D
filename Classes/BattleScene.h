@@ -1,5 +1,6 @@
 #include "cocos2d.h"
-//#include "Player.h"
+#include "Player.h"
+#include "Enemy.h"
 
 class BattleScene : public cocos2d::Layer
 {
@@ -13,7 +14,7 @@ public:
 	CREATE_FUNC(BattleScene);
 
 	const char *images [3];
-	//Player playerPrueba;
+	Player playerPrueba;
 
 
 private:

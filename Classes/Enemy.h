@@ -26,4 +26,3 @@ private:
 	int kindOfActions;
 	Spell *spells [10];
 };
-

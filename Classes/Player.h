@@ -1,3 +1,6 @@
+#ifndef __PLAYER_H__
+#define __PLAYER_H__
+
 #include "Direction.h"
 #include "Character.h"
 
@@ -18,3 +21,4 @@ private:
 	int direction;
 };
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef __CHARACTER_H__
+#define __CHARACTER_H__
+
 #include "Cooldown.h"
 #include "Spell.h"
 
@@ -17,3 +20,4 @@ protected:
 	Spell *spells [10];
 };
 
+#endif
