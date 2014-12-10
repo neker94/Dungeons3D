@@ -28,6 +28,10 @@ bool BattleScene::init(){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
+	_originBoxesX = 700;
+	_widthBoxesX = 157;
+	//playerPrueba = new Player();
+
 	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyReleased = CC_CALLBACK_2(BattleScene::onKeyReleased, this);
@@ -42,18 +46,18 @@ bool BattleScene::init(){
 
 	//Crea las imagenes de vida y cooldown del jugador
 	_healthBox = cocos2d::Sprite::create("menu/health_box.png");
-	_healthBox->setPosition(700, 585);
+	_healthBox->setPosition(_originBoxesX, 585);
 	this->addChild(_healthBox, 3);
 	_health = cocos2d::Sprite::create("menu/health.png");
-	_health->setPosition(700, 585);
+	_health->setPosition(_originBoxesX, 585);
 	this->addChild(_health, 2);
 
 
 	_manaBox = cocos2d::Sprite::create("menu/health_box.png");
-	_manaBox->setPosition(700, 555);
+	_manaBox->setPosition(_originBoxesX, 555);
 	this->addChild(_manaBox, 3);
 	_mana = cocos2d::Sprite::create("menu/mana.png");
-	_mana->setPosition(700, 555);
+	_mana->setPosition(_originBoxesX, 555);
 	this->addChild(_mana, 2);
 	
 
@@ -82,7 +86,25 @@ bool BattleScene::init(){
 		this->addChild(defense_attributes_image[i], 2);
 	}
 
+	this->scheduleUpdate();
+
 	return true;
+}
+
+void BattleScene::update(float dt){
+	playerPrueba.update(dt);
+
+	float newScaleX = ((float)playerPrueba.getCurrentHP())/((float)playerPrueba.getMaxHP());
+
+	_health->setScaleX(newScaleX);
+
+	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
+
+	newScaleX = ((float)playerPrueba.getCurrentM())/((float)playerPrueba.getMaxM());
+
+	_mana->setScaleX(newScaleX);
+
+	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 }
 
 void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event){

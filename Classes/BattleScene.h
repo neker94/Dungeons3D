@@ -10,14 +10,17 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	void BattleScene::update(float dt);
 	void returnToMapScene(Ref *pSender);
 	CREATE_FUNC(BattleScene);
 
-	const char *images [3];
+	//const char *images [3];
 	Player playerPrueba;
 
 
 private:
+	int _originBoxesX;
+	int _widthBoxesX;
 	cocos2d::Sprite *_health;
 	cocos2d::Sprite *_healthBox;
 

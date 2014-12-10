@@ -5,7 +5,27 @@ Player::Player()
 	posX = 3;
 	posY = 4;
 	direction = Direction::NORTH;
+	
+	int i;
+	for(i = 0; i < 6; i++){
+		damages[i] = 0;
+		defenses[i] = 0;
+	}
+
+	hp_max = 100;
+	hp_current = 50;
+
+	mana_max = 100;
+	mana_current = 63;
+	//spells[0]
 }
+
+void Player::update(float dt){
+	
+	
+
+}
+
 
 int Player::getX(){
 	return posX;
@@ -55,5 +75,21 @@ int Player::getDirection(){
 
 void Player::setDirection(int dir){
 	direction = dir;
+}
+
+int Player::getCurrentHP(){
+	return hp_current;
+}
+
+int Player::getMaxHP(){
+	return hp_max;
+}
+
+int Player::getCurrentM(){
+	return mana_current;
+}
+
+int Player::getMaxM(){
+	return mana_max;
 }
 

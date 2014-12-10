@@ -8,6 +8,7 @@ class Player:Character
 {
 public:
 	Player();
+	void Player::update(float dt);
 	void move();
 	void rotateLeft();
 	void rotateRight();
@@ -15,6 +16,10 @@ public:
 	int getY();
 	int getDirection();
 	void setDirection(int dir);
+	int getCurrentHP();
+	int getMaxHP();
+	int getCurrentM();
+	int getMaxM();
 private:
 	int posX;
 	int posY;

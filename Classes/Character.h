@@ -9,7 +9,6 @@ class Character
 public:
 	Character();
 
-protected:
 	float damages  [6];
 	float defenses [6];
 	int hp_max;
