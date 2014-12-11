@@ -17,10 +17,11 @@ public:
 	int getY();
 	int getDirection();
 	void setDirection(int);
-	void setDamages(float *);
-	void setDefenses(float *);
+	void setDamages(int index, float dmg);
+	void setDefenses(int index, float def);
 	void setHpMax(int);
 	void setHpCurrent(int);
+	float getRelativeHP();
 	void setCooldown(Cooldown *);
 	void takeDamage(float *);
 	float *doDamage(int);

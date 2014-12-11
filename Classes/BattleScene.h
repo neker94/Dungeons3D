@@ -19,11 +19,11 @@ public:
 
 	const char *images [3];
 	Player *player;
+	Enemy *_enemy;
 
 
 private:
-	CooldownQueue *_cooldownqueue;	
-	Enemy *_enemy;
+	CooldownQueue *_cooldownqueue;
 	int _originBoxesX;
 	int _widthBoxesX;
 	cocos2d::Sprite *_health;
@@ -32,6 +32,8 @@ private:
 	cocos2d::Sprite *_mana;
 	cocos2d::Sprite *_manaBox;
 	
+	cocos2d::Sprite *_enemySprite;
+
 	cocos2d::Sprite *background_menu_sprite;
 	cocos2d::Sprite *foreground_menu_sprite;
 

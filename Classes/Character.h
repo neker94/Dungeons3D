@@ -14,7 +14,7 @@ protected:
 	int hp_max;
 	int hp_current;
 	Cooldown *_cooldown;
-	Spell *spells [10];
+	int *spells [10];
 };
 
 #endif

@@ -37,7 +37,7 @@ bool BattleScene::init(){
 	background_menu_sprite = cocos2d::Sprite::create();
 	background_menu_sprite->setTexture("menu/action_menu.png");
 	background_menu_sprite->setPosition(visibleSize.width / 2 , visibleSize.height / 2); 
-	this->addChild(background_menu_sprite, 1);
+	this->addChild(background_menu_sprite, 2);
 
 	_originBoxesX = 700;
 	_widthBoxesX = 157;
@@ -45,18 +45,18 @@ bool BattleScene::init(){
 	//Crea las imagenes de vida y cooldown del jugador
 	_healthBox = cocos2d::Sprite::create("menu/health_box.png");
 	_healthBox->setPosition(700, 585);
-	this->addChild(_healthBox, 3);
+	this->addChild(_healthBox, 4);
 	_health = cocos2d::Sprite::create("menu/health.png");
 	_health->setPosition(700, 585);
-	this->addChild(_health, 2);
+	this->addChild(_health, 3);
 
 
 	_manaBox = cocos2d::Sprite::create("menu/health_box.png");
 	_manaBox->setPosition(700, 555);
-	this->addChild(_manaBox, 3);
+	this->addChild(_manaBox, 4);
 	_mana = cocos2d::Sprite::create("menu/mana.png");
 	_mana->setPosition(700, 555);
-	this->addChild(_mana, 2);
+	this->addChild(_mana, 3);
 	
 
 	//Crea las imágenes de los atributos de los ataques y de las defensas.
@@ -70,7 +70,7 @@ bool BattleScene::init(){
 		int displacementY = originY - i * (attack_attributes_image[i]->getContentSize().height + attack_attributes_image[i]->getContentSize().height/4);
 		attack_attributes_image[i]->setPosition(displacementX, displacementY);
 
-		this->addChild(attack_attributes_image[i], 2);
+		this->addChild(attack_attributes_image[i], 3);
 	}
 
 	for(int i = 0; i < sizeof(defense_attributes_image)/sizeof(*defense_attributes_image);i++){
@@ -81,22 +81,30 @@ bool BattleScene::init(){
 		int displacementY = originY - i * (defense_attributes_image[i]->getContentSize().height + defense_attributes_image[i]->getContentSize().height/4);
 		defense_attributes_image[i]->setPosition(displacementX, displacementY);
 
-		this->addChild(defense_attributes_image[i], 2);
+		this->addChild(defense_attributes_image[i], 3);
 	}
-	Atlas_Enemy::createEnemy(_enemy, 0);
 	player = new Player();
+	_enemy = new Enemy();
+	Atlas_Enemy::createEnemy(_enemy, 0);
 	Cooldown *c = new Cooldown();
 	Cooldown *c2 = new Cooldown();
-	c->init(20.0f);
-	c2->init(3.0f);
+	c->init(1.0f);
+	c2->init(30.0f);
 	player->setCooldown(c);
 	_enemy->setCooldown(c2);
+
+
+	//Enemy sprite
+	_enemySprite = Sprite::create(_enemy->spriteName);
+	_enemySprite->setPosition(300, 300);
+	this->addChild(_enemySprite, 1);
+
 	this->scheduleUpdate();
 	return true;
 }
 
 void BattleScene::update(float dt){
-	float newScaleX = ((float)player->getHp())/((float)player->getHpMax());
+	float newScaleX = player->getRelativeHP();
 	_health->setScaleX(newScaleX);
 	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 	newScaleX = player->getCooldown()->getRelativeTime();

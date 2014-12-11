@@ -3,6 +3,15 @@
 
 Enemy::Enemy()
 {
+	hp_max = hp_current = 100;
+
+	for(int i = 0; i < 6; i++){
+		setDamages(i, 0.0f);
+		setDefenses(i, 0.0f);
+	}
+
+
+
 }
 
 void Enemy::performAction(){
@@ -42,16 +51,12 @@ void Enemy::setHpCurrent(int hp){
 		hp_current = 0;
 }
 
-void Enemy::setDamages(float *dmg){
-	for(int i = 0; i < sizeof(&dmg); i++){
-		damages[i] = dmg[i];
-	}
+void Enemy::setDamages(int index, float dmg){
+	damages[index] = dmg;
 }
 
-void Enemy::setDefenses(float *dfs){
-	for(int i = 0; i < sizeof(&dfs); i++){
-		defenses[i] = dfs[i];
-	}
+void Enemy::setDefenses(int index, float def){
+	defenses[index] = def;
 }
 
 void Enemy::setHpMax(int hp){

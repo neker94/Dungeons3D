@@ -4,10 +4,24 @@ Player::Player()
 {
 	posX = 3;
 	posY = 4;
+
+	
+
+
 	direction = Direction::NORTH;
 	_cooldown = new Cooldown();
 	_cooldown->init(3.0f);
 	_cooldown->deactivate();
+
+	setHpMax(100);
+	setHpCurrent(getHpMax());
+	
+
+	for (int i = 0; i < 6; i++)
+	{
+		setDamages(i, 5);
+		setDefenses(i, 100);
+	}
 }
 
 int Player::getX(){
@@ -70,16 +84,16 @@ void Player::setHpCurrent(int hp){
 		hp_current = 0;
 }
 
-void Player::setDamages(float *dmg){
-	for(int i = 0; i < sizeof(&dmg); i++){
-		damages[i] = dmg[i];
-	}
+float Player::getRelativeHP(){
+	return (float)getHp()/(float)getHpMax();
 }
 
-void Player::setDefenses(float *dfs){
-	for(int i = 0; i < sizeof(&dfs); i++){
-		defenses[i] = dfs[i];
-	}
+void Player::setDamages(int index, float dmg){
+	damages[index] = dmg;
+}
+
+void Player::setDefenses(int index, float def){
+	defenses[index] = def;
 }
 
 void Player::setHpMax(int hp){
