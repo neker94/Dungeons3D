@@ -11,13 +11,29 @@ void Enemy::performAction(){
 	as we can't make a hard sofisticated IA, we will asign a number to
 	each action the enemy can perform. The greater this number is, the
 	more chances to be performed the action will have.
-	*/
-
-	
+	*/	
 }
 
-void Enemy::setCooldown(Cooldown c){
-	_playerCooldown = c;
+float *Enemy::doDamage(int index){
+	Spell *spell = Atlas_Spell::createSpell(index);
+	float damagePoints [6];
+	for(int i = 0; i < 6; i++){
+		damagePoints[i] = damages[i]*spell->getElementalPower(i);
+	}
+	getCooldown()->init(spell->getTime());
+	return damagePoints;
+}
+
+void Enemy::takeDamage(float *damagePoints){
+	float total = 0.0f;
+	for(int i = 0; i < 6; i++){
+		total += damagePoints[i]*defenses[i];
+	}
+	hp_current -= (int)total;
+}
+
+void Enemy::setCooldown(Cooldown *c){
+	_cooldown = c;
 }
 
 void Enemy::setHpCurrent(int hp){
@@ -42,14 +58,7 @@ void Enemy::setHpMax(int hp){
 	hp_max = hp;
 }
 
-void Enemy::setKindoOfAction(int kind){
-	kindOfActions = kind;
-}
+Cooldown *Enemy::getCooldown(){return _cooldown;}
+int Enemy::getHp(){return hp_current;}
+int Enemy::getHpMax(){return hp_max;}
 
-void Enemy::setManaCurrent(int mana){
-	mana_current = mana;
-}
-
-void Enemy::setManaMax(int mana){
-	mana_max = mana;
-}

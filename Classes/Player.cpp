@@ -5,27 +5,10 @@ Player::Player()
 	posX = 3;
 	posY = 4;
 	direction = Direction::NORTH;
-	
-	int i;
-	for(i = 0; i < 6; i++){
-		damages[i] = 0;
-		defenses[i] = 0;
-	}
-
-	hp_max = 100;
-	hp_current = 50;
-
-	mana_max = 100;
-	mana_current = 63;
-	//spells[0]
+	_cooldown = new Cooldown();
+	_cooldown->init(3.0f);
+	_cooldown->deactivate();
 }
-
-void Player::update(float dt){
-	
-	
-
-}
-
 
 int Player::getX(){
 	return posX;
@@ -77,19 +60,50 @@ void Player::setDirection(int dir){
 	direction = dir;
 }
 
-int Player::getCurrentHP(){
-	return hp_current;
+void Player::setCooldown(Cooldown *c){
+	_cooldown = c;
 }
 
-int Player::getMaxHP(){
-	return hp_max;
+void Player::setHpCurrent(int hp){
+	hp_current = hp;
+	if(hp_current < 0)
+		hp_current = 0;
 }
 
-int Player::getCurrentM(){
-	return mana_current;
+void Player::setDamages(float *dmg){
+	for(int i = 0; i < sizeof(&dmg); i++){
+		damages[i] = dmg[i];
+	}
 }
 
-int Player::getMaxM(){
-	return mana_max;
+void Player::setDefenses(float *dfs){
+	for(int i = 0; i < sizeof(&dfs); i++){
+		defenses[i] = dfs[i];
+	}
 }
 
+void Player::setHpMax(int hp){
+	hp_max = hp;
+}
+
+Cooldown *Player::getCooldown(){return _cooldown;}
+int Player::getHp(){return hp_current;}
+int Player::getHpMax(){return hp_max;}
+
+float *Player::doDamage(int index){
+	Spell *spell = Atlas_Spell::createSpell(index);
+	float damagePoints [6] = {0,0,0,0,0,0};
+	for(int i = 0; i < 6; i++){
+		damagePoints[i] = damages[i]*spell->getElementalPower(i);
+	}
+	getCooldown()->init(spell->getTime());
+	return damagePoints;
+}
+
+void Player::takeDamage(float *damagePoints){
+	float total = 0.0f;
+	for(int i = 0; i < 6; i++){
+		total += damagePoints[i]*defenses[i];
+	}
+	hp_current -= (int)total;
+}

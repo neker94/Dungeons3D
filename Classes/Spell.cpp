@@ -61,8 +61,8 @@ int Spell::getElementalPower(int element){
 	return elementalPower[element];
 }
 
-float Spell::getCooldownScaleImageWidth(){
-	return cooldown.getRelativeTime();
+float Spell::getTime(){
+	return time;
 }
 
 float Spell::getRelativePositionX(){

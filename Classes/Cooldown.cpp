@@ -30,6 +30,8 @@ void Cooldown::deactivate(){
 
 void Cooldown::decreaseTime(float timeElapsed){
 	timeRemaining -= timeElapsed;
+	if(timeRemaining < 0.0f)
+		timeRemaining = 0.0f;
 }
 
 void Cooldown::setNext(Cooldown *cooldown){

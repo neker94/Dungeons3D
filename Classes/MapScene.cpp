@@ -277,10 +277,14 @@ void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 }
 
 void MapScene::goToBattleScene(Ref *pSender){
-	auto scene = BattleScene::createScene();
+	//auto scene = BattleScene::createScene();
 
-	//player2 = player;
-
+	BattleScene battle;
+	battle.images[0] = this->images[0];
+	battle.images[1] = this->images[1];
+	battle.images[2] = this->images[2];
+	battle.player = &player;
+	auto scene = battle.createScene();
 
 	/*for (int i = 0; i < 3; i++)
 	{

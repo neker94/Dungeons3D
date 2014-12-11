@@ -25,14 +25,14 @@ public:
 	int getManaCost();
 	int getElementalPower(int);
 	float getRelativePositionX();
-	float getCooldownScaleImageWidth();
+	float getTime();
 private:
 	int elementalPower[6];
 	int index;
 	int manaCost;
 	char *name;
 	char *description;
-	double time;
+	float time;
 	float _positionX;
 	float _postionY;
 	Cooldown cooldown;

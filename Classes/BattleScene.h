@@ -1,6 +1,9 @@
 #include "cocos2d.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Character.h"
+#include "CooldownQueue.h"
+#include "Atlas_Enemy.h"
 
 class BattleScene : public cocos2d::Layer
 {
@@ -10,15 +13,17 @@ public:
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
-	void BattleScene::update(float dt);
+	void update(float dt);
 	void returnToMapScene(Ref *pSender);
 	CREATE_FUNC(BattleScene);
 
-	//const char *images [3];
-	Player playerPrueba;
+	const char *images [3];
+	Player *player;
 
 
 private:
+	CooldownQueue *_cooldownqueue;	
+	Enemy *_enemy;
 	int _originBoxesX;
 	int _widthBoxesX;
 	cocos2d::Sprite *_health;
