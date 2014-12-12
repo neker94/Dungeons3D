@@ -140,7 +140,11 @@ void BattleScene::update(float dt){
 	player->getCooldown()->decreaseTime(dt);
 	_enemy->getCooldown()->decreaseTime(dt);
 	if(_enemy->getCooldown()->isCompleted()){
-		player->takeDamage(_enemy->doDamage(0));
+		//player->takeDamage(_enemy->doDamage(0));
+		player->setHpCurrent(player->getHp() - 10);
+		Cooldown *aux = new Cooldown();
+		aux->init(2.0f);
+		_enemy->setCooldown(aux);
 	}
 	if(player->getHp() <= 0)
 		returnToMapScene(this);
@@ -154,8 +158,12 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 		returnToMapScene(this);
 	if(keyCode == EventKeyboard::KeyCode::KEY_Q)
 		if(player->getCooldown()->isCompleted()){
-			_enemy->takeDamage(player->doDamage(0));
-			if(_enemy->getHp() < 0)
+			//_enemy->takeDamage(player->doDamage(0));
+			_enemy->setHpCurrent(_enemy->getHp() - 10);
+			Cooldown *aux = new Cooldown();
+			aux->init(1.0f);
+			player->setCooldown(aux);
+			if(_enemy->getHp() <= 0)
 				returnToMapScene(this);
 		}
 }

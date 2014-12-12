@@ -117,7 +117,7 @@ float *Player::doDamage(int index){
 void Player::takeDamage(float *damagePoints){
 	float total = 0.0f;
 	for(int i = 0; i < 6; i++){
-		total += damagePoints[i]*defenses[i];
+		total += damagePoints[i]/defenses[i];
 	}
 	hp_current -= (int)total;
 }
