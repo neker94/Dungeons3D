@@ -51,6 +51,11 @@ void Enemy::setHpCurrent(int hp){
 		hp_current = 0;
 }
 
+
+float Enemy::getRelativeHP(){
+	return (float)getHp()/(float)getHpMax();
+}
+
 void Enemy::setDamages(int index, float dmg){
 	damages[index] = dmg;
 }

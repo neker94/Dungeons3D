@@ -31,6 +31,12 @@ private:
 
 	cocos2d::Sprite *_mana;
 	cocos2d::Sprite *_manaBox;
+
+	cocos2d::Sprite *_enemyhealth;
+	cocos2d::Sprite *_enemyhealthBox;
+
+	cocos2d::Sprite *_enemymana;
+	cocos2d::Sprite *_enemymanaBox;
 	
 	cocos2d::Sprite *_enemySprite;
 

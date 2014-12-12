@@ -11,7 +11,7 @@ public:
 		case 0:
 			spell->init();
 			spell->setIndex(index);
-			spell->setElementalPower(spell->PHYSIC, 10);
+			spell->setElementalPower(spell->PHYSIC, 1);
 			spell->setTime(0.5f);
 		case 1:
 			spell->init();

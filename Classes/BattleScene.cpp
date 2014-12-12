@@ -44,19 +44,35 @@ bool BattleScene::init(){
 
 	//Crea las imagenes de vida y cooldown del jugador
 	_healthBox = cocos2d::Sprite::create("menu/health_box.png");
-	_healthBox->setPosition(700, 585);
+	_healthBox->setPosition(_originBoxesX, 585);
 	this->addChild(_healthBox, 4);
 	_health = cocos2d::Sprite::create("menu/health.png");
-	_health->setPosition(700, 585);
+	_health->setPosition(_originBoxesX, 585);
 	this->addChild(_health, 3);
 
 
 	_manaBox = cocos2d::Sprite::create("menu/health_box.png");
-	_manaBox->setPosition(700, 555);
+	_manaBox->setPosition(_originBoxesX, 555);
 	this->addChild(_manaBox, 4);
 	_mana = cocos2d::Sprite::create("menu/mana.png");
-	_mana->setPosition(700, 555);
+	_mana->setPosition(_originBoxesX, 555);
 	this->addChild(_mana, 3);
+
+	//Crea las imagenes de vida y cooldown del enemigo
+	_enemyhealthBox = cocos2d::Sprite::create("menu/health_box.png");
+	_enemyhealthBox->setPosition(100, 585);
+	this->addChild(_enemyhealthBox, 4);
+	_enemyhealth = cocos2d::Sprite::create("menu/health.png");
+	_enemyhealth->setPosition(100, 585);
+	this->addChild(_enemyhealth, 3);
+
+
+	_enemymanaBox = cocos2d::Sprite::create("menu/health_box.png");
+	_enemymanaBox->setPosition(100, 555);
+	this->addChild(_enemymanaBox, 4);
+	_enemymana = cocos2d::Sprite::create("menu/mana.png");
+	_enemymana->setPosition(100, 555);
+	this->addChild(_enemymana, 3);
 	
 
 	//Crea las imágenes de los atributos de los ataques y de las defensas.
@@ -89,7 +105,7 @@ bool BattleScene::init(){
 	Cooldown *c = new Cooldown();
 	Cooldown *c2 = new Cooldown();
 	c->init(1.0f);
-	c2->init(30.0f);
+	c2->init(2.0f);
 	player->setCooldown(c);
 	_enemy->setCooldown(c2);
 
@@ -104,12 +120,23 @@ bool BattleScene::init(){
 }
 
 void BattleScene::update(float dt){
+
+	//Actualiza la información del jugador
 	float newScaleX = player->getRelativeHP();
 	_health->setScaleX(newScaleX);
 	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 	newScaleX = player->getCooldown()->getRelativeTime();
 	_mana->setScaleX(newScaleX);
 	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
+
+	//Actualiza la información del enemigo
+	newScaleX = _enemy->getRelativeHP();
+	_enemyhealth->setScaleX(newScaleX);
+	_enemyhealth->setPositionX((_originBoxesX - 600) - ((1 - newScaleX) * _widthBoxesX ) / 2);
+	newScaleX = _enemy->getCooldown()->getRelativeTime();
+	_enemymana->setScaleX(newScaleX);
+	_enemymana->setPositionX((_originBoxesX - 600) - ((1 - newScaleX) * _widthBoxesX ) / 2);
+	
 	player->getCooldown()->decreaseTime(dt);
 	_enemy->getCooldown()->decreaseTime(dt);
 	if(_enemy->getCooldown()->isCompleted()){

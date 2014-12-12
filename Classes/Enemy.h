@@ -11,12 +11,15 @@ public:
 	void setDefenses(int index, float def);
 	void setHpMax(int);
 	void setHpCurrent(int);
+	float getRelativeHP();
 	void setCooldown(Cooldown *);
 	void takeDamage(float *);
 	int getHp();
 	int getHpMax();
 	float *doDamage(int);
 	Cooldown *getCooldown();
+
+
 
 	const char *spriteName;
 private:

@@ -13,8 +13,8 @@ public:
 		case 0:
 			enemy->spriteName = "enemies/red_slime.png";
 
-			damages[0] = 70; damages[1] = 5; damages[2] = 10;
-			damages[3] = 10; damages[4] = 5; damages[5] = 50;
+			damages[0] = 1; damages[1] = 1; damages[2] = 1;
+			damages[3] = 1; damages[4] = 1; damages[5] = 1;
 
 			defenses[0] = 70; defenses[1] = 5; defenses[2] = 10;
 			defenses[3] = 10; defenses[4] = 5; defenses[5] = 50;

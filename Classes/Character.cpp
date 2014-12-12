@@ -4,3 +4,4 @@
 Character::Character()
 {
 }
+
