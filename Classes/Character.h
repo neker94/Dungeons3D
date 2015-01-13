@@ -3,6 +3,7 @@
 
 #include "Cooldown.h"
 #include "Spell.h"
+#include <vector>
 
 class Character
 {
@@ -14,7 +15,7 @@ protected:
 	int hp_max;
 	int hp_current;
 	Cooldown *_cooldown;
-	int *spells [10];
+	std::vector<int> spells;
 };
 
 #endif

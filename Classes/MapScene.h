@@ -4,6 +4,7 @@
 #include "Dungeon.h"
 #include "cocos2d.h"
 #include "MiniMap.h"
+#include "BattleScene.h"
 
 class MapScene : public cocos2d::Layer
 {
@@ -12,13 +13,13 @@ public:
     virtual bool init();  
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
     CREATE_FUNC(MapScene);
+	void update(float dt);
 
 	void goToBattleScene(Ref *pSender);
 
 private:
 	const char *images [3];
 	int steps;
-	Player player;
 	Dungeon dungeon;
 	MiniMap minimap;
 	cocos2d::Sprite *s0;
@@ -44,11 +45,9 @@ private:
 	cocos2d::Sprite *attack_attributes_image [6];
 	cocos2d::Sprite *defense_attributes_image [6];
 
-	cocos2d::Sprite *_health;
-	cocos2d::Sprite *_healthBox;
-
-	cocos2d::Sprite *_mana;
-	cocos2d::Sprite *_manaBox;
+	
+	cocos2d::LabelTTF *_attackAttributes[6];
+	cocos2d::LabelTTF *_defenseAttributes[6];
 
 	void rotateLeft();
 	void rotateRight();

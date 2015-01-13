@@ -39,8 +39,6 @@ bool BattleScene::init(){
 	background_menu_sprite->setPosition(visibleSize.width / 2 , visibleSize.height / 2); 
 	this->addChild(background_menu_sprite, 2);
 
-	_originBoxesX = 700;
-	_widthBoxesX = 157;
 
 	//Crea las imagenes de vida y cooldown del jugador
 	_healthBox = cocos2d::Sprite::create("menu/health_box.png");
@@ -99,7 +97,6 @@ bool BattleScene::init(){
 
 		this->addChild(defense_attributes_image[i], 3);
 	}
-	player = new Player();
 	_enemy = new Enemy();
 	Atlas_Enemy::createEnemy(_enemy, 0);
 	Cooldown *c = new Cooldown();
@@ -109,6 +106,13 @@ bool BattleScene::init(){
 	player->setCooldown(c);
 	_enemy->setCooldown(c2);
 
+	//Text which display damage dealt
+	_enemyDamageText = LabelTTF::create("", "Helvetica", 70, CCSizeMake(245, 100), kCCTextAlignmentCenter);
+	_playerDamageText = LabelTTF::create("", "Helvetica", 70, CCSizeMake(245, 100), kCCTextAlignmentCenter);
+	_enemyDamageText->setColor(Color3B::RED);
+	_playerDamageText->setColor(Color3B::BLUE);
+	this->addChild(_enemyDamageText, 2);
+	this->addChild(_playerDamageText, 2);
 
 	//Enemy sprite
 	_enemySprite = Sprite::create(_enemy->spriteName);
@@ -137,17 +141,29 @@ void BattleScene::update(float dt){
 	_enemymana->setScaleX(newScaleX);
 	_enemymana->setPositionX((_originBoxesX - 600) - ((1 - newScaleX) * _widthBoxesX ) / 2);
 	
+	//Actualize damage display numbers
+	_enemyDamageText->setOpacity(_enemyDamageText->getOpacity()-dt*20);
+	_enemyDamageText->setPositionY(_enemyDamageText->getPositionY()+dt*15);
+	_playerDamageText->setOpacity(_playerDamageText->getOpacity()-dt*20);
+	_playerDamageText->setPositionY(_playerDamageText->getPositionY()+dt*15);
+
 	player->getCooldown()->decreaseTime(dt);
 	_enemy->getCooldown()->decreaseTime(dt);
 	if(_enemy->getCooldown()->isCompleted()){
-		//player->takeDamage(_enemy->doDamage(0));
-		player->setHpCurrent(player->getHp() - 10);
-		Cooldown *aux = new Cooldown();
-		aux->init(2.0f);
-		_enemy->setCooldown(aux);
+		float dmgs [6];
+		int damageDealt = player->getHp();
+		_enemy->doDamage(_enemy->performAction(), dmgs);
+		player->takeDamage(dmgs);
+		damageDealt-=player->getHp();
+		_playerDamageText->setPosition(260+rand()%80, 85+rand()%30);
+		_playerDamageText->setOpacity(255);
+		itoa(damageDealt, text, 10);
+		_playerDamageText->setString(text);
 	}
-	if(player->getHp() <= 0)
+	if(player->getHp() <= 0){
+		player->setHpCurrent(1);
 		returnToMapScene(this);
+	}
 }
 		
 
@@ -158,14 +174,22 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 		returnToMapScene(this);
 	if(keyCode == EventKeyboard::KeyCode::KEY_Q)
 		if(player->getCooldown()->isCompleted()){
-			//_enemy->takeDamage(player->doDamage(0));
-			_enemy->setHpCurrent(_enemy->getHp() - 10);
-			Cooldown *aux = new Cooldown();
-			aux->init(1.0f);
-			player->setCooldown(aux);
-			if(_enemy->getHp() <= 0)
+			float dmgs [6];
+			int damageDealt = _enemy->getHp();
+			player->doDamage(0, dmgs);
+			_enemy->takeDamage(dmgs);
+			damageDealt -= _enemy->getHp();
+			_enemyDamageText->setPosition(260+rand()%80, 285+rand()%30);
+			_enemyDamageText->setOpacity(255);
+			itoa(damageDealt, text, 10);
+			_enemyDamageText->setString(text);
+			if(_enemy->getHp() <= 0){
+				player->levelUp();
 				returnToMapScene(this);
+			}
 		}
+	if(keyCode == EventKeyboard::KeyCode::KEY_H)
+		player->setHpCurrent(player->getHp()+(player->getHpMax()-player->getHp())/3+5);
 }
 
 void BattleScene::returnToMapScene(Ref *pSender){

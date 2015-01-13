@@ -1,6 +1,4 @@
 #include "MapScene.h"
-#include "BattleScene.h"
-#include "Global.h"
 #include <iostream>
 
 USING_NS_CC;
@@ -41,7 +39,7 @@ bool MapScene::init()
 
 	//Inicializa la mazmorra y le asigna un puntero al Jugador
 	dungeon.init();
-	dungeon.setPlayer(&player);
+	dungeon.setPlayer(player);
 	
 	//Inicializa el Jugador
 
@@ -193,13 +191,25 @@ bool MapScene::init()
 	right_button_p->setPosition(displacementX, 0);
 	
 	this->addChild(menu, 2);
-
+	
+	this->scheduleUpdate();
     return true;
+}
+
+void MapScene::update(float dt){
+	//Actualiza la información del jugador
+	float newScaleX = player->getRelativeHP();
+	_health->setScaleX(newScaleX);
+	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
+	newScaleX = player->getCooldown()->getRelativeTime();
+	_mana->setScaleX(newScaleX);
+	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
+
 }
 
 void MapScene::rotateLeft(){
 	//Modifica la direccion del jugado, la celda del minimapa del jugador y cambia las imagenes de la mazmorra a las que corresponde
-	player.rotateLeft();
+	player->rotateLeft();
 	player_square->setRotation(player_square->getRotation() - 90.0f);
 	
 	dungeon.imagesToShow(images);
@@ -210,7 +220,7 @@ void MapScene::rotateLeft(){
 
 void MapScene::rotateRight(){
 	//Modifica la direccion del jugado, la celda del minimapa del jugador y cambia las imagenes de la mazmorra a las que corresponde
-	player.rotateRight();
+	player->rotateRight();
 	player_square->setRotation(player_square->getRotation() + 90.0f);
 	
 	dungeon.imagesToShow(images);
@@ -221,8 +231,8 @@ void MapScene::rotateRight(){
 
 void MapScene::rotateHalf(){
 	//Modifica la direccion del jugado, la celda del minimapa del jugador y cambia las imagenes de la mazmorra a las que corresponde
-	player.rotateRight();
-	player.rotateRight();
+	player->rotateRight();
+	player->rotateRight();
 	player_square->setRotation(player_square->getRotation() + 180.0f);
 	
 	dungeon.imagesToShow(images);
@@ -234,12 +244,12 @@ void MapScene::rotateHalf(){
 void MapScene::move(){
 	//Modifica la posicion del jugador, actualiza el minimapa y carga las imagenes correspondientes a la nueva posicion. Tambien comprueba si hay una batalla
 	if(dungeon.canMove()){
-		player.move();
+		player->move();
 		dungeon.imagesToShow(images);
 		s2->setTexture(images[2]);
 		s1->setTexture(images[1]);
 		s0->setTexture(images[0]);
-		minimap.cellsRevealedNerby(player.getX(), player.getY());
+		minimap.cellsRevealedNerby(player->getX(), player->getY());
 		for(int i = 0; i < minimap.SIZE*minimap.SIZE; i++){
 			if(minimap.nerby[i]){
 				minimap_images[i]->setTexture("square_revealed.png");
@@ -248,22 +258,29 @@ void MapScene::move(){
 				minimap_images[i]->setTexture("square.png");
 			}
 		}
-		minimap.revealCell(player.getX(), player.getY());
+		minimap.revealCell(player->getX(), player->getY());
 	}
 	//Aparicion enemigos, descomentar esto para hacer pruebas
 
-	/*steps++;
-	if((rand()%100) < 100*(1-(100/(100+steps*steps*steps)))){
-		player_square->setTexture("square_exit.png");
+	steps++;
+	srand(timeGetTime());
+	float c1 = rand()%100+1;
+	float c2 = 100.0f*(1-(20.0f/(20+(steps))));
+	if(c1 < c2){
 		steps = 0;
+		goToBattleScene(this);
 	}
-	else
-		player_square->setTexture("square_player.png");*/
 }
 
 
 void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event){
 	//Hace la accion correspondiente a la tecla pulsada
+	float newScaleX = player->getRelativeHP();
+	_health->setScaleX(newScaleX);
+	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
+	newScaleX = player->getCooldown()->getRelativeTime();
+	_mana->setScaleX(newScaleX);
+	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 	if(keyCode == EventKeyboard::KeyCode::KEY_W)
 		move();
 	if(keyCode == EventKeyboard::KeyCode::KEY_A)
@@ -272,25 +289,10 @@ void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 		rotateRight();
 	if(keyCode == EventKeyboard::KeyCode::KEY_S)
 		rotateHalf();
-	if(keyCode == EventKeyboard::KeyCode::KEY_Q)
-		goToBattleScene(this);
 }
 
 void MapScene::goToBattleScene(Ref *pSender){
-	//auto scene = BattleScene::createScene();
-
-	BattleScene battle;
-	battle.images[0] = this->images[0];
-	battle.images[1] = this->images[1];
-	battle.images[2] = this->images[2];
-	battle.player = &player;
-	auto scene = battle.createScene();
-
-	/*for (int i = 0; i < 3; i++)
-	{
-		[i] = images[i];
-	}*/
-
+	auto scene = BattleScene::createScene();
 	Director::getInstance()->pushScene(scene);
 }
 

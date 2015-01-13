@@ -6,7 +6,7 @@ class Enemy:Character
 {
 public:
 	Enemy();
-	void performAction();
+	int performAction();
 	void setDamages(int index, float dmg);
 	void setDefenses(int index, float def);
 	void setHpMax(int);
@@ -16,12 +16,9 @@ public:
 	void takeDamage(float *);
 	int getHp();
 	int getHpMax();
-	float *doDamage(int);
+	void doDamage(int, float*);
+	void addSpell(int);
 	Cooldown *getCooldown();
-
-
-
 	const char *spriteName;
-private:
-	
+	int exp;
 };

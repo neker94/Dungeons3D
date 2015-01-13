@@ -4,33 +4,29 @@
 #include "Character.h"
 #include "CooldownQueue.h"
 #include "Atlas_Enemy.h"
+#include "Global.h"
 
 class BattleScene : public cocos2d::Layer
 {
 public:
 	BattleScene();
-
 	static cocos2d::Scene* createScene();
 	virtual bool init();
 	void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
 	void update(float dt);
 	void returnToMapScene(Ref *pSender);
 	CREATE_FUNC(BattleScene);
-
 	const char *images [3];
-	Player *player;
 	Enemy *_enemy;
 
 
 private:
 	CooldownQueue *_cooldownqueue;
-	int _originBoxesX;
-	int _widthBoxesX;
-	cocos2d::Sprite *_health;
-	cocos2d::Sprite *_healthBox;
 
-	cocos2d::Sprite *_mana;
-	cocos2d::Sprite *_manaBox;
+	char text [3];
+
+	cocos2d::LabelTTF *_enemyDamageText;
+	cocos2d::LabelTTF *_playerDamageText;
 
 	cocos2d::Sprite *_enemyhealth;
 	cocos2d::Sprite *_enemyhealthBox;

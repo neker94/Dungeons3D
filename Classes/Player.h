@@ -24,14 +24,19 @@ public:
 	float getRelativeHP();
 	void setCooldown(Cooldown *);
 	void takeDamage(float *);
-	float *doDamage(int);
+	void doDamage(int, float*);
 	int getHp();
 	int getHpMax();
 	Cooldown *getCooldown();
+	bool doesLevelUp();
+	void levelUp();
 private:
 	int posX;
 	int posY;
 	int direction;
+	int expPoints;
+	int level;
+	int availablePoints;
 };
 
 #endif

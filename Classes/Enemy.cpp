@@ -9,28 +9,21 @@ Enemy::Enemy()
 		setDamages(i, 0.0f);
 		setDefenses(i, 0.0f);
 	}
-
-
-
+	setCooldown(new Cooldown());
 }
 
-void Enemy::performAction(){
-	
-	/* HERE IS THE CODE FOR IMPLEMENT IA
-	as we can't make a hard sofisticated IA, we will asign a number to
-	each action the enemy can perform. The greater this number is, the
-	more chances to be performed the action will have.
-	*/	
+int Enemy::performAction(){
+	int aux = spells.size();
+	aux = rand()%aux;
+	return spells[aux];
 }
 
-float *Enemy::doDamage(int index){
+void Enemy::doDamage(int index, float* damagePoints){
 	Spell *spell = Atlas_Spell::createSpell(index);
-	float damagePoints [6];
 	for(int i = 0; i < 6; i++){
 		damagePoints[i] = damages[i]*spell->getElementalPower(i);
 	}
 	getCooldown()->init(spell->getTime());
-	return damagePoints;
 }
 
 void Enemy::takeDamage(float *damagePoints){
@@ -72,3 +65,4 @@ Cooldown *Enemy::getCooldown(){return _cooldown;}
 int Enemy::getHp(){return hp_current;}
 int Enemy::getHpMax(){return hp_max;}
 
+void Enemy::addSpell(int index){spells.push_back(index);}
