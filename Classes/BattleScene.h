@@ -18,7 +18,7 @@ public:
 	CREATE_FUNC(BattleScene);
 	const char *images [3];
 	Enemy *_enemy;
-
+	Player *player;
 
 private:
 	CooldownQueue *_cooldownqueue;

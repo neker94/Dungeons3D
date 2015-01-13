@@ -2,7 +2,9 @@
 #define GLOBAL_H
 #include "Player.h"
 
-static Player *player = new Player();
+//static Player *player = new Player();
+//static int _H = 0;
+
 static const char* images[3];
 static int _originBoxesX = 700;
 static int _widthBoxesX = 157;

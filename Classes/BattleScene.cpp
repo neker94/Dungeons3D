@@ -27,6 +27,9 @@ bool BattleScene::init(){
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	player = new Player();
+	
+	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth", player->getHp()));
 
 	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
 	auto listener = EventListenerKeyboard::create();
@@ -133,6 +136,8 @@ void BattleScene::update(float dt){
 	_mana->setScaleX(newScaleX);
 	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 
+	//_H = player->getHp();
+
 	//Actualiza la información del enemigo
 	newScaleX = _enemy->getRelativeHP();
 	_enemyhealth->setScaleX(newScaleX);
@@ -193,5 +198,7 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 }
 
 void BattleScene::returnToMapScene(Ref *pSender){
+	
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
 	Director::getInstance()->popScene();
 }

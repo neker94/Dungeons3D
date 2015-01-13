@@ -5,6 +5,7 @@
 #include "cocos2d.h"
 #include "MiniMap.h"
 #include "BattleScene.h"
+#include "Player.h"
 
 class MapScene : public cocos2d::Layer
 {
@@ -18,6 +19,7 @@ public:
 	void goToBattleScene(Ref *pSender);
 
 private:
+	Player *player;
 	const char *images [3];
 	int steps;
 	Dungeon dungeon;
