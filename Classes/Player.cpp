@@ -137,3 +137,13 @@ void Player::levelUp(){
 	case 2: spells.push_back(2); break;
 	}
 }
+
+void Player::addDamagePoint(int i){
+	if(i >= 0 && i < 6)
+		damages[i]++;
+}
+
+void Player::addDefensePoint(int i){
+	if(i >= 0 && i < 6)
+		defenses[i]++;
+}

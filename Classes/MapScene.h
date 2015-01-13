@@ -16,6 +16,14 @@ public:
     CREATE_FUNC(MapScene);
 	void update(float dt);
 
+	void addPhisicalDamagePoint();
+	void addFirelDamagePoint();
+	void addWaterDamagePoint();
+	void addLightningDamagePoint();
+	void addLightDamagePoint();
+	void addDarkDamagePoint();
+
+
 	void goToBattleScene(Ref *pSender);
 
 private:
@@ -45,7 +53,9 @@ private:
 	cocos2d::MenuItemImage *right_button_p;
 
 	cocos2d::Sprite *attack_attributes_image [6];
+	cocos2d::MenuItemImage *attack_attributes_buttons [6];
 	cocos2d::Sprite *defense_attributes_image [6];
+	cocos2d::MenuItemImage *defense_attributes_buttons [6];
 
 	
 	cocos2d::LabelTTF *_attackAttributes[6];

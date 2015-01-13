@@ -30,6 +30,9 @@ public:
 	Cooldown *getCooldown();
 	bool doesLevelUp();
 	void levelUp();
+	void addDamagePoint(int i);
+	void addDefensePoint(int i);
+
 private:
 	int posX;
 	int posY;

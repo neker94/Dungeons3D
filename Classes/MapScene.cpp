@@ -160,9 +160,11 @@ bool MapScene::init()
 		int displacementX = originX + attack_attributes_image[i]->getContentSize().height * 0;
 		int displacementY = originY - i * (attack_attributes_image[i]->getContentSize().height + attack_attributes_image[i]->getContentSize().height/4);
 		attack_attributes_image[i]->setPosition(displacementX, displacementY);
+		
 
 		this->addChild(attack_attributes_image[i], 2);
 	}
+
 
 	for(int i = 0; i < sizeof(defense_attributes_image)/sizeof(*defense_attributes_image);i++){
 
@@ -171,12 +173,39 @@ bool MapScene::init()
 		int displacementX = originX + defense_attributes_image[i]->getContentSize().height * 3;
 		int displacementY = originY - i * (defense_attributes_image[i]->getContentSize().height + defense_attributes_image[i]->getContentSize().height/4);
 		defense_attributes_image[i]->setPosition(displacementX, displacementY);
+		
+		//defense_attributes_buttons[i] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_1(MapScene::addDamagePoint, i, this));
+		//defense_attributes_buttons[i]->setPosition(displacementX, displacementY);
 
 		this->addChild(defense_attributes_image[i], 2);
 	}
+	originX = visibleSize.width / 2 - (800 - 625);
 
+	originY = visibleSize.height / 2 - (600 - originY);
 
-	auto menu = Menu::create(up_button, down_button, left_button, right_button, up_button_p, down_button_p, left_button_p, right_button_p, NULL);
+	int row = 0;
+	attack_attributes_buttons[0] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addPhisicalDamagePoint, this));
+	attack_attributes_buttons[0]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	row++;
+	attack_attributes_buttons[1] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addFirelDamagePoint, this));
+	attack_attributes_buttons[1]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	row++;
+	attack_attributes_buttons[2] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addWaterDamagePoint, this));
+	attack_attributes_buttons[2]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	row++;
+	attack_attributes_buttons[3] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addLightningDamagePoint, this));
+	attack_attributes_buttons[3]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	row++;
+	attack_attributes_buttons[4] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addLightDamagePoint, this));
+	attack_attributes_buttons[4]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	row++;
+	attack_attributes_buttons[5] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addDarkDamagePoint, this));
+	attack_attributes_buttons[5]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	row = 0;
+
+	auto menu = Menu::create(up_button, down_button, left_button, right_button, up_button_p, down_button_p, left_button_p, right_button_p, 
+		attack_attributes_buttons[0], attack_attributes_buttons[1], attack_attributes_buttons[2], attack_attributes_buttons[3], attack_attributes_buttons[4], attack_attributes_buttons[5], 
+		/*defense_attributes_buttons[0], defense_attributes_buttons[1], defense_attributes_buttons[2], defense_attributes_buttons[3], defense_attributes_buttons[4], defense_attributes_buttons[5],*/ NULL);
 	int displacementX = visibleSize.width/2 - visibleSize.width/8;
 	int displacementY = -visibleSize.height/2 + visibleSize.width/12;
 	up_button->setPosition(displacementX, displacementY);
@@ -306,4 +335,27 @@ void MapScene::goToBattleScene(Ref *pSender){
 	Director::getInstance()->pushScene(scene);
 }
 
+
+void MapScene::addPhisicalDamagePoint(){
+	player->addDamagePoint(0);
+}
+void MapScene::addFirelDamagePoint(){
+	player->addDamagePoint(1);
+}
+
+void MapScene::addWaterDamagePoint(){
+	player->addDamagePoint(2);
+}
+
+void MapScene::addLightningDamagePoint(){
+	player->addDamagePoint(3);
+}
+
+void MapScene::addLightDamagePoint(){
+	player->addDamagePoint(4);
+}
+
+void MapScene::addDarkDamagePoint(){
+	player->addDamagePoint(5);
+}
 

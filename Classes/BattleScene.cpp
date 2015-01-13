@@ -29,6 +29,7 @@ bool BattleScene::init(){
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	player = new Player();
 	
+
 	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth", player->getHp()));
 
 	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
