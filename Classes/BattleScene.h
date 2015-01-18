@@ -23,6 +23,7 @@ public:
 private:
 	CooldownQueue *_cooldownqueue;
 
+	bool load;
 	void loadPlayer();
 	void savePlayer();
 

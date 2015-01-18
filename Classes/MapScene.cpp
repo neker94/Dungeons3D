@@ -427,5 +427,6 @@ void MapScene::savePlayer(){
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
+
 }
 

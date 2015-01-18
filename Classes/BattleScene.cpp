@@ -29,6 +29,7 @@ bool BattleScene::init(){
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	player = new Player();
 	loadPlayer();
+	load = true;
 
 	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
 	auto listener = EventListenerKeyboard::create();
@@ -126,7 +127,10 @@ bool BattleScene::init(){
 }
 
 void BattleScene::update(float dt){
-
+	if(load){
+		loadPlayer();
+		load = false;
+	}
 	//Actualiza la información del jugador
 	float newScaleX = player->getRelativeHP();
 	_health->setScaleX(newScaleX);
@@ -198,6 +202,7 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 
 void BattleScene::returnToMapScene(Ref *pSender){
 	savePlayer();
+	load = true;
 	Director::getInstance()->popScene();
 }
 
@@ -239,5 +244,7 @@ void BattleScene::savePlayer(){
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
+
+	CCUserDefault::sharedUserDefault()->flush();
 
 }

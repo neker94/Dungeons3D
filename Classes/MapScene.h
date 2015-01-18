@@ -39,8 +39,8 @@ private:
 	int steps;
 	Dungeon dungeon;
 	MiniMap minimap;
+	
 	bool load;
-
 	void savePlayer();
 	void loadPlayer();
 
