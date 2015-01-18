@@ -98,6 +98,14 @@ void Player::setDefenses(int index, float def){
 	defenses[index] = def;
 }
 
+float Player::getDamages(int index){
+	return damages[index];
+}
+
+float Player::getDefenses(int index){
+	return defenses[index];
+}
+
 void Player::setHpMax(int hp){
 	hp_max = hp;
 }
@@ -127,10 +135,11 @@ bool Player::doesLevelUp(){
 }
 
 void Player::levelUp(){
-	for(int i = 0; i < 6; i++){
+	/*for(int i = 0; i < 6; i++){
 		damages[i]+=5;
 		defenses[i]+=5;
-	}
+	}*/
+	availablePoints += 5;
 	hp_max+=10;
 	level++;
 	switch(level){
@@ -139,11 +148,27 @@ void Player::levelUp(){
 }
 
 void Player::addDamagePoint(int i){
-	if(i >= 0 && i < 6)
-		damages[i]++;
+	if(i >= 0 && i < 6 && availablePoints > 0){
+		damages[i]+=1;
+		availablePoints--;
+	}
 }
 
 void Player::addDefensePoint(int i){
-	if(i >= 0 && i < 6)
-		defenses[i]++;
+	if(i >= 0 && i < 6 && availablePoints > 0){
+		defenses[i]+=1;
+		availablePoints--;
+	}
+}
+
+int Player::getAvailablePoints(){
+	return availablePoints;
+}
+
+void Player::addAvailablePoints(){
+	availablePoints += 5;
+}
+
+void Player::setAvailablePoints(int i){
+	availablePoints = i;
 }

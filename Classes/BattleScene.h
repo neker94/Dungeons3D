@@ -23,6 +23,9 @@ public:
 private:
 	CooldownQueue *_cooldownqueue;
 
+	void loadPlayer();
+	void savePlayer();
+
 	char text [3];
 
 	cocos2d::LabelTTF *_enemyDamageText;

@@ -19,6 +19,11 @@ public:
 	void setDirection(int);
 	void setDamages(int index, float dmg);
 	void setDefenses(int index, float def);
+	int getAvailablePoints();
+	void addAvailablePoints();
+	void setAvailablePoints(int i);
+	float getDamages(int index);
+	float getDefenses(int index);
 	void setHpMax(int);
 	void setHpCurrent(int);
 	float getRelativeHP();

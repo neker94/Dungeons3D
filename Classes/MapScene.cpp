@@ -1,4 +1,5 @@
 #include "MapScene.h"
+#include "Loader.h"
 #include <iostream>
 
 USING_NS_CC;
@@ -44,7 +45,8 @@ bool MapScene::init()
 	dungeon.setPlayer(player);
 	
 	//Prepara e inicializa las variables del Jugador
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
+	savePlayer();
+	load = false;
 
 
 	//Inicializa el Minimapa
@@ -179,15 +181,19 @@ bool MapScene::init()
 
 		this->addChild(defense_attributes_image[i], 2);
 	}
-	originX = visibleSize.width / 2 - (800 - 625);
+	originX = visibleSize.width / 2 - (800 - 625) + 30;
 
 	originY = visibleSize.height / 2 - (600 - originY);
 
 	int row = 0;
 	attack_attributes_buttons[0] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addPhisicalDamagePoint, this));
 	attack_attributes_buttons[0]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[0] = LabelTTF::create("", "Helvetica", 70, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_attackAttributes[0]->setColor(Color3B::WHITE);
+	_attackAttributes[0]->setPosition(originX + 15, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_attackAttributes[0], 3);
 	row++;
-	attack_attributes_buttons[1] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addFirelDamagePoint, this));
+	attack_attributes_buttons[1] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addFireDamagePoint, this));
 	attack_attributes_buttons[1]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
 	row++;
 	attack_attributes_buttons[2] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(MapScene::addWaterDamagePoint, this));
@@ -231,8 +237,10 @@ bool MapScene::init()
 
 void MapScene::update(float dt){
 	//Actualiza la información del jugador
-	
-	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth", player->getHp()));
+	if(load){
+		loadPlayer();
+		load = false;
+	}
 
 	float newScaleX = player->getRelativeHP();
 	_health->setScaleX(newScaleX);
@@ -241,6 +249,7 @@ void MapScene::update(float dt){
 	_mana->setScaleX(newScaleX);
 	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 
+	_attackAttributes[0]->setString(std::to_string(player->getAvailablePoints()));//(int)player->getDamages(0)));
 }
 
 void MapScene::rotateLeft(){
@@ -328,10 +337,9 @@ void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 }
 
 void MapScene::goToBattleScene(Ref *pSender){
+	savePlayer();
+	load = true;
 	auto scene = BattleScene::createScene();
-
-
-
 	Director::getInstance()->pushScene(scene);
 }
 
@@ -339,7 +347,7 @@ void MapScene::goToBattleScene(Ref *pSender){
 void MapScene::addPhisicalDamagePoint(){
 	player->addDamagePoint(0);
 }
-void MapScene::addFirelDamagePoint(){
+void MapScene::addFireDamagePoint(){
 	player->addDamagePoint(1);
 }
 
@@ -357,5 +365,67 @@ void MapScene::addLightDamagePoint(){
 
 void MapScene::addDarkDamagePoint(){
 	player->addDamagePoint(5);
+}
+
+void MapScene::addPhisicalDefensePoint(){
+	player->addDefensePoint(0);
+}
+void MapScene::addFireDefensePoint(){
+	player->addDefensePoint(1);
+}
+
+void MapScene::addWaterDefensePoint(){
+	player->addDefensePoint(2);
+}
+
+void MapScene::addLightningDefensePoint(){
+	player->addDefensePoint(3);
+}
+
+void MapScene::addLightDefensePoint(){
+	player->addDefensePoint(4);
+}
+
+void MapScene::addDarkDefensePoint(){
+	player->addDefensePoint(5);
+}
+
+void MapScene::loadPlayer(){
+	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth"));
+	player->setAvailablePoints(CCUserDefault::sharedUserDefault()->getIntegerForKey("points"));
+
+
+	player->setDamages(0, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_0"));
+	player->setDamages(1, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_1"));
+	player->setDamages(2, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_2"));
+	player->setDamages(3, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_3"));
+	player->setDamages(4, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_4"));
+	player->setDamages(5, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_5"));
+
+	player->setDefenses(0, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_0"));
+	player->setDefenses(1, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_1"));
+	player->setDefenses(2, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_2"));
+	player->setDefenses(3, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_3"));
+	player->setDefenses(4, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_4"));
+	player->setDefenses(5, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_5"));	
+}
+
+void MapScene::savePlayer(){
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("points", player->getAvailablePoints());
+
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_0", player->getDamages(0));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_1", player->getDamages(1));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_2", player->getDamages(2));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_3", player->getDamages(3));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_4", player->getDamages(4));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_5", player->getDamages(5));
+
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_0", player->getDefenses(0));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_1", player->getDefenses(1));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_2", player->getDefenses(2));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
 }
 

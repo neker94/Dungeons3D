@@ -28,9 +28,7 @@ bool BattleScene::init(){
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	player = new Player();
-	
-
-	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth", player->getHp()));
+	loadPlayer();
 
 	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
 	auto listener = EventListenerKeyboard::create();
@@ -199,7 +197,47 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 }
 
 void BattleScene::returnToMapScene(Ref *pSender){
-	
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
+	savePlayer();
 	Director::getInstance()->popScene();
+}
+
+
+void BattleScene::loadPlayer(){
+	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth"));
+	player->setAvailablePoints(CCUserDefault::sharedUserDefault()->getIntegerForKey("points"));
+
+
+	player->setDamages(0, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_0"));
+	player->setDamages(1, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_1"));
+	player->setDamages(2, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_2"));
+	player->setDamages(3, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_3"));
+	player->setDamages(4, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_4"));
+	player->setDamages(5, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_5"));
+
+	player->setDefenses(0, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_0"));
+	player->setDefenses(1, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_1"));
+	player->setDefenses(2, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_2"));
+	player->setDefenses(3, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_3"));
+	player->setDefenses(4, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_4"));
+	player->setDefenses(5, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_5"));
+}
+
+void BattleScene::savePlayer(){
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("points", player->getAvailablePoints());
+
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_0", player->getDamages(0));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_1", player->getDamages(1));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_2", player->getDamages(2));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_3", player->getDamages(3));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_4", player->getDamages(4));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_5", player->getDamages(5));
+
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_0", player->getDefenses(0));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_1", player->getDefenses(1));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_2", player->getDefenses(2));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
+
 }

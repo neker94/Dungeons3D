@@ -17,11 +17,18 @@ public:
 	void update(float dt);
 
 	void addPhisicalDamagePoint();
-	void addFirelDamagePoint();
+	void addFireDamagePoint();
 	void addWaterDamagePoint();
 	void addLightningDamagePoint();
 	void addLightDamagePoint();
 	void addDarkDamagePoint();
+
+	void addPhisicalDefensePoint();
+	void addFireDefensePoint();
+	void addWaterDefensePoint();
+	void addLightningDefensePoint();
+	void addLightDefensePoint();
+	void addDarkDefensePoint();
 
 
 	void goToBattleScene(Ref *pSender);
@@ -32,6 +39,11 @@ private:
 	int steps;
 	Dungeon dungeon;
 	MiniMap minimap;
+	bool load;
+
+	void savePlayer();
+	void loadPlayer();
+
 	cocos2d::Sprite *s0;
 	cocos2d::Sprite *s1;
 	cocos2d::Sprite *s2;
@@ -60,6 +72,7 @@ private:
 	
 	cocos2d::LabelTTF *_attackAttributes[6];
 	cocos2d::LabelTTF *_defenseAttributes[6];
+	char text [3];
 
 	void rotateLeft();
 	void rotateRight();
