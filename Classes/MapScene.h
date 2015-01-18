@@ -34,7 +34,7 @@ public:
 	void goToBattleScene(Ref *pSender);
 
 private:
-	Player *player;
+	//Player *player;
 	const char *images [3];
 	int steps;
 	Dungeon dungeon;
@@ -49,6 +49,14 @@ private:
 	cocos2d::Sprite *s2;
 	cocos2d::Sprite *player_square;
 	cocos2d::Sprite *minimap_images [49];
+
+	cocos2d::Sprite *_health;
+	cocos2d::Sprite *_healthBox;
+	cocos2d::Sprite *_mana;
+	cocos2d::Sprite *_manaBox;
+
+	int _originBoxesX;
+	int _widthBoxesX;
 
 	/*-----MENU ELEMENTS-----*/
 	cocos2d::Sprite *background_menu_sprite;

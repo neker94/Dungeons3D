@@ -4,7 +4,6 @@
 #include "Character.h"
 #include "CooldownQueue.h"
 #include "Atlas_Enemy.h"
-#include "Global.h"
 
 class BattleScene : public cocos2d::Layer
 {
@@ -18,14 +17,22 @@ public:
 	CREATE_FUNC(BattleScene);
 	const char *images [3];
 	Enemy *_enemy;
-	Player *player;
+	//Player *player;
 
 private:
 	CooldownQueue *_cooldownqueue;
 
 	bool load;
-	void loadPlayer();
-	void savePlayer();
+	//void loadPlayer();
+	//void savePlayer();
+	
+	cocos2d::Sprite *_health;
+	cocos2d::Sprite *_healthBox;
+	cocos2d::Sprite *_mana;
+	cocos2d::Sprite *_manaBox;
+
+	int _originBoxesX;
+	int _widthBoxesX;
 
 	char text [3];
 

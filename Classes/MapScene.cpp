@@ -1,5 +1,5 @@
 #include "MapScene.h"
-#include "Loader.h"
+#include "Global.h"
 #include <iostream>
 
 USING_NS_CC;
@@ -33,26 +33,28 @@ bool MapScene::init()
 	//Variable temporal que redimensiona las imagenes hasta que las reduzcamos a 600x600. Inicializa la cantidad de pasos dados
 	float reduction = 0.5825242718446602f;
 	steps = 0;
-
 	//Crea el 'genereador' de eventos para el teclado. Al pulsar una tecla llama a OnKeyReleased
 	auto listener = EventListenerKeyboard::create();
 	listener->onKeyReleased = CC_CALLBACK_2(MapScene::onKeyReleased, this);
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this); //Pone el generador de eventos en el 'receptor' de eventos
 
 	//Inicializa la mazmorra y le asigna un puntero al Jugador
+	Global::player = new Player();
 	dungeon.init();
-	player = new Player();
-	dungeon.setPlayer(player);
+	dungeon.setPlayer(Global::player);
 	
 	//Prepara e inicializa las variables del Jugador
-	savePlayer();
-	load = false;
+	//CCUserDefault::sharedUserDefault()->setBoolForKey("load", true);
+	//savePlayer();
 
 
 	//Inicializa el Minimapa
 	minimap;
 	minimap.init();
 	
+	_originBoxesX = 700;
+	_widthBoxesX = 157;
+
 	//
 	//Calcula y Crea la imagenes que representan la mazmorra. Aqui se les aplican la posicion y el escalado permanente
 	//
@@ -237,24 +239,21 @@ bool MapScene::init()
 
 void MapScene::update(float dt){
 	//Actualiza la información del jugador
-	if(load){
-		loadPlayer();
-		load = false;
-	}
+	//loadPlayer();
 
-	float newScaleX = player->getRelativeHP();
+	float newScaleX = Global::player->getRelativeHP();
 	_health->setScaleX(newScaleX);
 	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
-	newScaleX = player->getCooldown()->getRelativeTime();
+	newScaleX = Global::player->getCooldown()->getRelativeTime();
 	_mana->setScaleX(newScaleX);
 	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 
-	_attackAttributes[0]->setString(std::to_string(player->getAvailablePoints()));//(int)player->getDamages(0)));
+	_attackAttributes[0]->setString(std::to_string(Global::player->getAvailablePoints()));//(int)player->getDamages(0)));
 }
 
 void MapScene::rotateLeft(){
 	//Modifica la direccion del jugado, la celda del minimapa del jugador y cambia las imagenes de la mazmorra a las que corresponde
-	player->rotateLeft();
+	Global::player->rotateLeft();
 	player_square->setRotation(player_square->getRotation() - 90.0f);
 	
 	dungeon.imagesToShow(images);
@@ -265,7 +264,7 @@ void MapScene::rotateLeft(){
 
 void MapScene::rotateRight(){
 	//Modifica la direccion del jugado, la celda del minimapa del jugador y cambia las imagenes de la mazmorra a las que corresponde
-	player->rotateRight();
+	Global::player->rotateRight();
 	player_square->setRotation(player_square->getRotation() + 90.0f);
 	
 	dungeon.imagesToShow(images);
@@ -276,8 +275,8 @@ void MapScene::rotateRight(){
 
 void MapScene::rotateHalf(){
 	//Modifica la direccion del jugado, la celda del minimapa del jugador y cambia las imagenes de la mazmorra a las que corresponde
-	player->rotateRight();
-	player->rotateRight();
+	Global::player->rotateRight();
+	Global::player->rotateRight();
 	player_square->setRotation(player_square->getRotation() + 180.0f);
 	
 	dungeon.imagesToShow(images);
@@ -289,12 +288,12 @@ void MapScene::rotateHalf(){
 void MapScene::move(){
 	//Modifica la posicion del jugador, actualiza el minimapa y carga las imagenes correspondientes a la nueva posicion. Tambien comprueba si hay una batalla
 	if(dungeon.canMove()){
-		player->move();
+		Global::player->move();
 		dungeon.imagesToShow(images);
 		s2->setTexture(images[2]);
 		s1->setTexture(images[1]);
 		s0->setTexture(images[0]);
-		minimap.cellsRevealedNerby(player->getX(), player->getY());
+		minimap.cellsRevealedNerby(Global::player->getX(), Global::player->getY());
 		for(int i = 0; i < minimap.SIZE*minimap.SIZE; i++){
 			if(minimap.nerby[i]){
 				minimap_images[i]->setTexture("square_revealed.png");
@@ -303,7 +302,7 @@ void MapScene::move(){
 				minimap_images[i]->setTexture("square.png");
 			}
 		}
-		minimap.revealCell(player->getX(), player->getY());
+		minimap.revealCell(Global::player->getX(), Global::player->getY());
 	}
 	//Aparicion enemigos, descomentar esto para hacer pruebas
 
@@ -320,10 +319,10 @@ void MapScene::move(){
 
 void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event){
 	//Hace la accion correspondiente a la tecla pulsada
-	float newScaleX = player->getRelativeHP();
+	float newScaleX = Global::player->getRelativeHP();
 	_health->setScaleX(newScaleX);
 	_health->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
-	newScaleX = player->getCooldown()->getRelativeTime();
+	newScaleX = Global::player->getCooldown()->getRelativeTime();
 	_mana->setScaleX(newScaleX);
 	_mana->setPositionX(_originBoxesX - ((1 - newScaleX) * _widthBoxesX ) / 2);
 	if(keyCode == EventKeyboard::KeyCode::KEY_W)
@@ -337,7 +336,7 @@ void MapScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::E
 }
 
 void MapScene::goToBattleScene(Ref *pSender){
-	savePlayer();
+	//savePlayer();
 	load = true;
 	auto scene = BattleScene::createScene();
 	Director::getInstance()->pushScene(scene);
@@ -345,69 +344,74 @@ void MapScene::goToBattleScene(Ref *pSender){
 
 
 void MapScene::addPhisicalDamagePoint(){
-	player->addDamagePoint(0);
+	Global::player->addDamagePoint(0);//addDamagePoint(0);
+	
 }
 void MapScene::addFireDamagePoint(){
-	player->addDamagePoint(1);
+	Global::player->addDamagePoint(1);
 }
 
 void MapScene::addWaterDamagePoint(){
-	player->addDamagePoint(2);
+	Global::player->addDamagePoint(2);
 }
 
 void MapScene::addLightningDamagePoint(){
-	player->addDamagePoint(3);
+	Global::player->addDamagePoint(3);
 }
 
 void MapScene::addLightDamagePoint(){
-	player->addDamagePoint(4);
+	Global::player->addDamagePoint(4);
 }
 
 void MapScene::addDarkDamagePoint(){
-	player->addDamagePoint(5);
+	Global::player->addDamagePoint(5);
 }
 
 void MapScene::addPhisicalDefensePoint(){
-	player->addDefensePoint(0);
+	Global::player->addDefensePoint(0);
 }
 void MapScene::addFireDefensePoint(){
-	player->addDefensePoint(1);
+	Global::player->addDefensePoint(1);
 }
 
 void MapScene::addWaterDefensePoint(){
-	player->addDefensePoint(2);
+	Global::player->addDefensePoint(2);
 }
 
 void MapScene::addLightningDefensePoint(){
-	player->addDefensePoint(3);
+	Global::player->addDefensePoint(3);
 }
 
 void MapScene::addLightDefensePoint(){
-	player->addDefensePoint(4);
+	Global::player->addDefensePoint(4);
 }
 
 void MapScene::addDarkDefensePoint(){
-	player->addDefensePoint(5);
+	Global::player->addDefensePoint(5);
 }
 
-void MapScene::loadPlayer(){
-	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth"));
-	player->setAvailablePoints(CCUserDefault::sharedUserDefault()->getIntegerForKey("points"));
+/*void MapScene::loadPlayer(){
+	if(load){
+		player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth"));
+		player->setAvailablePoints(CCUserDefault::sharedUserDefault()->getIntegerForKey("points"));
 
 
-	player->setDamages(0, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_0"));
-	player->setDamages(1, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_1"));
-	player->setDamages(2, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_2"));
-	player->setDamages(3, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_3"));
-	player->setDamages(4, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_4"));
-	player->setDamages(5, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_5"));
+		player->setDamages(0, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_0"));
+		player->setDamages(1, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_1"));
+		player->setDamages(2, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_2"));
+		player->setDamages(3, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_3"));
+		player->setDamages(4, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_4"));
+		player->setDamages(5, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_5"));
 
-	player->setDefenses(0, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_0"));
-	player->setDefenses(1, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_1"));
-	player->setDefenses(2, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_2"));
-	player->setDefenses(3, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_3"));
-	player->setDefenses(4, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_4"));
-	player->setDefenses(5, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_5"));	
+		player->setDefenses(0, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_0"));
+		player->setDefenses(1, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_1"));
+		player->setDefenses(2, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_2"));
+		player->setDefenses(3, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_3"));
+		player->setDefenses(4, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_4"));
+		player->setDefenses(5, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_5"));
+		load = false;
+	}
+	
 }
 
 void MapScene::savePlayer(){
@@ -427,6 +431,5 @@ void MapScene::savePlayer(){
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
-
-}
+}*/
 
