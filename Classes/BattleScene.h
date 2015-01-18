@@ -15,29 +15,37 @@ public:
 	void update(float dt);
 	void returnToMapScene(Ref *pSender);
 	CREATE_FUNC(BattleScene);
-	const char *images [3];
 	Enemy *_enemy;
-	//Player *player;
+	
+	void addPhisicalDamagePoint();
+	void addFireDamagePoint();
+	void addWaterDamagePoint();
+	void addLightningDamagePoint();
+	void addLightDamagePoint();
+	void addDarkDamagePoint();
+
+	void addPhisicalDefensePoint();
+	void addFireDefensePoint();
+	void addWaterDefensePoint();
+	void addLightningDefensePoint();
+	void addLightDefensePoint();
+	void addDarkDefensePoint();
+
 
 private:
+	Player *player;
 	CooldownQueue *_cooldownqueue;
 
-	bool load;
-	//void loadPlayer();
-	//void savePlayer();
-	
-	cocos2d::Sprite *_health;
-	cocos2d::Sprite *_healthBox;
-	cocos2d::Sprite *_mana;
-	cocos2d::Sprite *_manaBox;
-
+	char text [3];
 	int _originBoxesX;
 	int _widthBoxesX;
-
-	char text [3];
+	const char* images[3];
+	bool prepareToReturn;
 
 	cocos2d::LabelTTF *_enemyDamageText;
 	cocos2d::LabelTTF *_playerDamageText;
+	cocos2d::LabelTTF *_consoleEnemyText;
+	cocos2d::LabelTTF *_consolePlayerText;
 
 	cocos2d::Sprite *_enemyhealth;
 	cocos2d::Sprite *_enemyhealthBox;
@@ -50,8 +58,19 @@ private:
 	cocos2d::Sprite *background_menu_sprite;
 	cocos2d::Sprite *foreground_menu_sprite;
 
+	cocos2d::Sprite *_health;
+	cocos2d::Sprite *_healthBox;
+	cocos2d::Sprite *_mana;
+	cocos2d::Sprite *_manaBox;
+
 	cocos2d::Sprite *attack_attributes_image [6];
+	cocos2d::MenuItemImage *attack_attributes_buttons [6];
 	cocos2d::Sprite *defense_attributes_image [6];
+	cocos2d::MenuItemImage *defense_attributes_buttons [6];
+
+
+	cocos2d::LabelTTF *_attackAttributes[6];
+	cocos2d::LabelTTF *_defenseAttributes[6];
 
 };
 

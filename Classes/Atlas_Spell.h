@@ -11,8 +11,12 @@ public:
 		case 0:
 			spell->init();
 			spell->setIndex(index);
-			spell->setElementalPower(spell->PHYSIC, 1);
+			spell->setName("Tu madre en bragas");
+			spell->setDescription("Ale");
+			spell->setElementalPower(spell->PHYSIC, 10);
+			spell->setManaCost(5);
 			spell->setTime(0.5f);
+			break;
 		case 1:
 			spell->init();
 			spell->setIndex(index);
@@ -56,7 +60,7 @@ public:
 			spell->setName("Poder de Hefesto");
 			spell->setDescription("Invoca al dios Hefesto para que cargue contra los enemigos");
 			spell->setElementalPower(spell->FIRE, 150);
-			spell->setElementalPower(spell->MAGIC, 30);
+			spell->setElementalPower(spell->THUNDER, 30);
 			spell->setElementalPower(spell->PHYSIC,20);
 			spell->setManaCost(100);
 			spell->setTime(5.0f);

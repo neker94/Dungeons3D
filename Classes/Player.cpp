@@ -12,7 +12,6 @@ Player::Player()
 
 	level = 1;
 	expPoints = 0;
-	availablePoints = 5;
 
 	setHpMax(200);
 	setHpCurrent(getHpMax());
@@ -98,14 +97,6 @@ void Player::setDefenses(int index, float def){
 	defenses[index] = def;
 }
 
-float Player::getDamages(int index){
-	return damages[index];
-}
-
-float Player::getDefenses(int index){
-	return defenses[index];
-}
-
 void Player::setHpMax(int hp){
 	hp_max = hp;
 }
@@ -139,8 +130,8 @@ void Player::levelUp(){
 		damages[i]+=5;
 		defenses[i]+=5;
 	}*/
-	availablePoints += 5;
 	hp_max+=10;
+	availablePoints = 5;
 	level++;
 	switch(level){
 	case 2: spells.push_back(2); break;
@@ -148,27 +139,23 @@ void Player::levelUp(){
 }
 
 void Player::addDamagePoint(int i){
-	if(i >= 0 && i < 6 && availablePoints > 0){
-		damages[i]+=1;
+	if(availablePoints > 0){
+		damages[i] += 1.0f;
 		availablePoints--;
 	}
 }
 
 void Player::addDefensePoint(int i){
-	if(i >= 0 && i < 6 && availablePoints > 0){
-		defenses[i]+=1;
+	if(availablePoints > 0){
+		defenses[i] += 1.0f;
 		availablePoints--;
 	}
 }
 
-int Player::getAvailablePoints(){
-	return availablePoints;
+float Player::getDamages(int i){
+	return damages[i];
 }
 
-void Player::addAvailablePoints(){
-	availablePoints += 5;
-}
-
-void Player::setAvailablePoints(int i){
-	availablePoints = i;
+float Player::getDefenses(int i){
+	return defenses[i];
 }

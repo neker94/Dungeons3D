@@ -19,14 +19,13 @@ public:
 	void setDirection(int);
 	void setDamages(int index, float dmg);
 	void setDefenses(int index, float def);
-	int getAvailablePoints();
-	void addAvailablePoints();
-	void setAvailablePoints(int i);
 	float getDamages(int index);
 	float getDefenses(int index);
 	void setHpMax(int);
 	void setHpCurrent(int);
 	float getRelativeHP();
+	void addDamagePoint(int i);
+	void addDefensePoint(int i);
 	void setCooldown(Cooldown *);
 	void takeDamage(float *);
 	void doDamage(int, float*);
@@ -35,16 +34,13 @@ public:
 	Cooldown *getCooldown();
 	bool doesLevelUp();
 	void levelUp();
-	void addDamagePoint(int i);
-	void addDefensePoint(int i);
-
+	int availablePoints;
 private:
 	int posX;
 	int posY;
 	int direction;
 	int expPoints;
 	int level;
-	int availablePoints;
 };
 
 #endif

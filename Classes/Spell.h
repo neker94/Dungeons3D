@@ -6,9 +6,9 @@ class Spell
 public:
 	Spell();
 	static const int PHYSIC = 0;
-	static const int MAGIC = 1;
-	static const int FIRE = 2;
-	static const int ICE = 3;
+	static const int FIRE = 1;
+	static const int WATER = 2;
+	static const int THUNDER = 3;
 	static const int LIGTH = 4;
 	static const int DARKNESS = 5;
 	void init();

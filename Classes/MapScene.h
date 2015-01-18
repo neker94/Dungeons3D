@@ -5,7 +5,6 @@
 #include "cocos2d.h"
 #include "MiniMap.h"
 #include "BattleScene.h"
-#include "Player.h"
 
 class MapScene : public cocos2d::Layer
 {
@@ -30,33 +29,23 @@ public:
 	void addLightDefensePoint();
 	void addDarkDefensePoint();
 
-
 	void goToBattleScene(Ref *pSender);
 
 private:
-	//Player *player;
 	const char *images [3];
-	int steps;
+	Player *player;
 	Dungeon dungeon;
 	MiniMap minimap;
-	
-	bool load;
-	void savePlayer();
-	void loadPlayer();
+
+	int steps;
+	int _originBoxesX;
+	int _widthBoxesX;
 
 	cocos2d::Sprite *s0;
 	cocos2d::Sprite *s1;
 	cocos2d::Sprite *s2;
 	cocos2d::Sprite *player_square;
 	cocos2d::Sprite *minimap_images [49];
-
-	cocos2d::Sprite *_health;
-	cocos2d::Sprite *_healthBox;
-	cocos2d::Sprite *_mana;
-	cocos2d::Sprite *_manaBox;
-
-	int _originBoxesX;
-	int _widthBoxesX;
 
 	/*-----MENU ELEMENTS-----*/
 	cocos2d::Sprite *background_menu_sprite;
@@ -72,15 +61,19 @@ private:
 	cocos2d::MenuItemImage *left_button_p;
 	cocos2d::MenuItemImage *right_button_p;
 
+	cocos2d::Sprite *_health;
+	cocos2d::Sprite *_healthBox;
+	cocos2d::Sprite *_mana;
+	cocos2d::Sprite *_manaBox;
+	
 	cocos2d::Sprite *attack_attributes_image [6];
 	cocos2d::MenuItemImage *attack_attributes_buttons [6];
 	cocos2d::Sprite *defense_attributes_image [6];
 	cocos2d::MenuItemImage *defense_attributes_buttons [6];
 
-	
+
 	cocos2d::LabelTTF *_attackAttributes[6];
 	cocos2d::LabelTTF *_defenseAttributes[6];
-	char text [3];
 
 	void rotateLeft();
 	void rotateRight();
