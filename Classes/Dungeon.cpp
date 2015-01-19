@@ -32,6 +32,9 @@ void Dungeon::init(){
 	for(int i = 0; i < 400; i++){
 		board[i] = aux[i];
 	}
+
+	endX = 10;
+	endY = 2;
 	
 }
 
@@ -41,6 +44,18 @@ bool Dungeon::canMove(){
 		return true;
 	}
 	return false;
+}
+
+bool Dungeon::playerEnds(){
+	return (player->getX() == endX && player->getY() == endY)? true : false;
+}
+
+int Dungeon::distance(){
+	int X = endX - player->getX();
+	int Y = endY - player->getY();
+
+	float d = sqrt((float)X * X + Y * Y);
+	return (int) d;
 }
 
 void Dungeon::setPlayer(Player *p){

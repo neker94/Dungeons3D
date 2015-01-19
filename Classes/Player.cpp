@@ -126,10 +126,6 @@ bool Player::doesLevelUp(){
 }
 
 void Player::levelUp(){
-	/*for(int i = 0; i < 6; i++){
-		damages[i]+=5;
-		defenses[i]+=5;
-	}*/
 	hp_max+=10;
 	availablePoints = 5;
 	level++;
@@ -158,4 +154,25 @@ float Player::getDamages(int i){
 
 float Player::getDefenses(int i){
 	return defenses[i];
+}
+
+int Player::getExperience(){
+	return expPoints;
+}
+
+
+void Player::setExperience(int expe){
+	expPoints = expe;
+}
+
+int Player::expUntilNLvl(){
+	return (level*level*level)+10 - expPoints;
+}
+
+void Player::setLevel(int l){
+	level = l;
+}
+
+int Player::getLevel(){
+	return level;
 }

@@ -26,6 +26,7 @@ public:
 	int getElementalPower(int);
 	float getRelativePositionX();
 	float getTime();
+
 private:
 	int elementalPower[6];
 	int index;

@@ -30,23 +30,7 @@ bool BattleScene::init(){
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	
 	player = new Player();
-	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth"));
-	player->availablePoints = (CCUserDefault::sharedUserDefault()->getIntegerForKey("points"));
-
-
-	player->setDamages(0, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_0"));
-	player->setDamages(1, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_1"));
-	player->setDamages(2, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_2"));
-	player->setDamages(3, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_3"));
-	player->setDamages(4, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_4"));
-	player->setDamages(5, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_5"));
-
-	player->setDefenses(0, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_0"));
-	player->setDefenses(1, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_1"));
-	player->setDefenses(2, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_2"));
-	player->setDefenses(3, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_3"));
-	player->setDefenses(4, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_4"));
-	player->setDefenses(5, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_5"));
+	loadPlayer();
 
 	_originBoxesX = 700;
 	_widthBoxesX = 157;
@@ -153,30 +137,104 @@ bool BattleScene::init(){
 
 	int row = 0;
 	attack_attributes_buttons[0] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addPhisicalDamagePoint, this));
-	attack_attributes_buttons[0]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
-	_attackAttributes[0] = LabelTTF::create("", "Helvetica", 70, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	attack_attributes_buttons[0]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[0] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
 	_attackAttributes[0]->setColor(Color3B::WHITE);
-	_attackAttributes[0]->setPosition(originX + 15, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[0]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
 	this->addChild(_attackAttributes[0], 3);
 	row++;
 	attack_attributes_buttons[1] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addFireDamagePoint, this));
-	attack_attributes_buttons[1]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	attack_attributes_buttons[1]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[1] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_attackAttributes[1]->setColor(Color3B::WHITE);
+	_attackAttributes[1]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_attackAttributes[1], 3);
 	row++;
 	attack_attributes_buttons[2] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addWaterDamagePoint, this));
-	attack_attributes_buttons[2]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	attack_attributes_buttons[2]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[2] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_attackAttributes[2]->setColor(Color3B::WHITE);
+	_attackAttributes[2]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_attackAttributes[2], 3);
 	row++;
 	attack_attributes_buttons[3] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addLightningDamagePoint, this));
-	attack_attributes_buttons[3]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	attack_attributes_buttons[3]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[3] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_attackAttributes[3]->setColor(Color3B::WHITE);
+	_attackAttributes[3]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_attackAttributes[3], 3);
 	row++;
 	attack_attributes_buttons[4] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addLightDamagePoint, this));
-	attack_attributes_buttons[4]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	attack_attributes_buttons[4]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[4] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_attackAttributes[4]->setColor(Color3B::WHITE);
+	_attackAttributes[4]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_attackAttributes[4], 3);
 	row++;
 	attack_attributes_buttons[5] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addDarkDamagePoint, this));
-	attack_attributes_buttons[5]->setPosition(originX, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	attack_attributes_buttons[5]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_attackAttributes[5] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_attackAttributes[5]->setColor(Color3B::WHITE);
+	_attackAttributes[5]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_attackAttributes[5], 3);
+	
+
+	/*-----------------------------------------------------------------
+	--------------------BOTONES ATRIBUTOS DEFENSAS--------------------
+	-------------------------------------------------------------------*/
+
+	originX += 80;
+
 	row = 0;
+	defense_attributes_buttons[0] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addPhisicalDefensePoint, this));
+	defense_attributes_buttons[0]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_defenseAttributes[0] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_defenseAttributes[0]->setColor(Color3B::WHITE);
+	_defenseAttributes[0]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_defenseAttributes[0], 3);
+	row++;
+	defense_attributes_buttons[1] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addFireDefensePoint, this));
+	defense_attributes_buttons[1]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_defenseAttributes[1] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_defenseAttributes[1]->setColor(Color3B::WHITE);
+	_defenseAttributes[1]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_defenseAttributes[1], 3);
+	row++;
+	defense_attributes_buttons[2] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addWaterDefensePoint, this));
+	defense_attributes_buttons[2]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_defenseAttributes[2] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_defenseAttributes[2]->setColor(Color3B::WHITE);
+	_defenseAttributes[2]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_defenseAttributes[2], 3);
+	row++;
+	defense_attributes_buttons[3] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addLightningDefensePoint, this));
+	defense_attributes_buttons[3]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_defenseAttributes[3] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_defenseAttributes[3]->setColor(Color3B::WHITE);
+	_defenseAttributes[3]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_defenseAttributes[3], 3);
+	row++;
+	defense_attributes_buttons[4] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addLightDefensePoint, this));
+	defense_attributes_buttons[4]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_defenseAttributes[4] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_defenseAttributes[4]->setColor(Color3B::WHITE);
+	_defenseAttributes[4]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_defenseAttributes[4], 3);
+	row++;
+	defense_attributes_buttons[5] = MenuItemImage::create("menu/attribute_button.png", "menu/attribute_button.png", CC_CALLBACK_0(BattleScene::addDarkDefensePoint, this));
+	defense_attributes_buttons[5]->setPosition(originX + 25, originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	_defenseAttributes[5] = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentLeft);
+	_defenseAttributes[5]->setColor(Color3B::WHITE);
+	_defenseAttributes[5]->setPosition(480 + originX + 30, 262 + originY - row * (attack_attributes_image[0]->getContentSize().height + attack_attributes_image[0]->getContentSize().height/4));
+	this->addChild(_defenseAttributes[5], 3);
+	
+	_playerInfo = LabelTTF::create("", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentRight);
+	_playerInfo->setColor(Color3B::WHITE);
+	_playerInfo->setPosition(645, 490);
+	this->addChild(_playerInfo, 3);
 
 	auto menu = Menu::create( attack_attributes_buttons[0], attack_attributes_buttons[1], attack_attributes_buttons[2], attack_attributes_buttons[3], attack_attributes_buttons[4], attack_attributes_buttons[5], 
-		/*defense_attributes_buttons[0], defense_attributes_buttons[1], defense_attributes_buttons[2], defense_attributes_buttons[3], defense_attributes_buttons[4], defense_attributes_buttons[5],*/ NULL);
+		defense_attributes_buttons[0], defense_attributes_buttons[1], defense_attributes_buttons[2], defense_attributes_buttons[3], defense_attributes_buttons[4], defense_attributes_buttons[5], NULL);
 
 	this->addChild(menu, 3);
 	//Enemy sprite
@@ -222,19 +280,22 @@ void BattleScene::update(float dt){
 			itoa(damageDealt, text, 10);
 			_playerDamageText->setString(text);
 		
-			String c = ""; c.appendWithFormat("El enemigo ha usado %s y te ha quitado %d PV!", Atlas_Spell::createSpell(spellDone)->getName(),damageDealt);
+			String c = "";
+			c.appendWithFormat("El enemigo ha usado %s y te ha quitado %d PV!", Atlas_Spell::createSpell(spellDone)->getName(),damageDealt);
 			_consoleEnemyText->setPosition(280, 70);
 			_consolePlayerText->setPosition(280, 30);
 			_consoleEnemyText->setString(c.getCString());
 		}
 		if(player->getHp() <= 0){
-			player->setHpCurrent(1);
+			player->setHpCurrent(0);
+			savePlayer();
 			returnToMapScene(this);
 		}
 		if(_enemy->getHp() <= 0){
 			player->levelUp();
 			prepareToReturn = true;
 		}
+
 		
 	}
 
@@ -244,26 +305,42 @@ void BattleScene::update(float dt){
 	_playerDamageText->setOpacity(_playerDamageText->getOpacity()-dt*20);
 	_playerDamageText->setPositionY(_playerDamageText->getPositionY()+dt*15);
 
-	if(prepareToReturn && player->availablePoints == 0){
-		CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
-		CCUserDefault::sharedUserDefault()->setIntegerForKey("points", player->availablePoints);
+	//Actualizar puntos de atributos
+	_attackAttributes[0]->setString(std::to_string((int) player->getDamages(0)));
+	_attackAttributes[1]->setString(std::to_string((int) player->getDamages(1)));
+	_attackAttributes[2]->setString(std::to_string((int) player->getDamages(2)));
+	_attackAttributes[3]->setString(std::to_string((int) player->getDamages(3)));
+	_attackAttributes[4]->setString(std::to_string((int) player->getDamages(4)));
+	_attackAttributes[5]->setString(std::to_string((int) player->getDamages(5)));
 
-		CCUserDefault::sharedUserDefault()->setFloatForKey("damage_0", player->getDamages(0));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("damage_1", player->getDamages(1));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("damage_2", player->getDamages(2));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("damage_3", player->getDamages(3));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("damage_4", player->getDamages(4));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("damage_5", player->getDamages(5));
+	_defenseAttributes[0]->setString(std::to_string((int) player->getDefenses(0)));
+	_defenseAttributes[1]->setString(std::to_string((int) player->getDefenses(1)));
+	_defenseAttributes[2]->setString(std::to_string((int) player->getDefenses(2)));
+	_defenseAttributes[3]->setString(std::to_string((int) player->getDefenses(3)));
+	_defenseAttributes[4]->setString(std::to_string((int) player->getDefenses(4)));
+	_defenseAttributes[5]->setString(std::to_string((int) player->getDefenses(5)));
+	if(player->availablePoints > 0){
+		for (int i = 0; i < 6; i++){
+			_attackAttributes[i]->setColor(Color3B::GREEN);
+			_defenseAttributes[i]->setColor(Color3B::GREEN);
+		}
+	}
+	else{
+		for (int i = 0; i < 6; i++){
+			_attackAttributes[i]->setColor(Color3B::WHITE);
+			_defenseAttributes[i]->setColor(Color3B::WHITE);
+		}
+	}
+	
+	String info = "";
+	info.appendWithFormat("Lv: %d ExpNext: %d", player->getLevel(), player->expUntilNLvl());
+	_playerInfo->setString(info.getCString());
 
-		CCUserDefault::sharedUserDefault()->setFloatForKey("defense_0", player->getDefenses(0));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("defense_1", player->getDefenses(1));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("defense_2", player->getDefenses(2));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
-		CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
-
+	if(prepareToReturn){
+		savePlayer();
 		returnToMapScene(this);
 	}
+	
 		
 }
 		
@@ -277,7 +354,7 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 		if(player->getCooldown()->isCompleted()){
 			float dmgs [6];
 			int damageDealt = _enemy->getHp();
-			player->doDamage(3, dmgs);
+			player->doDamage(0, dmgs);
 			_enemy->takeDamage(dmgs);
 			damageDealt -= _enemy->getHp();
 			_enemyDamageText->setPosition(260+rand()%80, 285+rand()%30);
@@ -285,7 +362,7 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 			itoa(damageDealt, text, 10);
 			_enemyDamageText->setString(text);
 
-			String c = ""; c.appendWithFormat("Has usado %s y le ha quitado %d PV al enemigo!", Atlas_Spell::createSpell(3)->getName(),damageDealt);
+			String c = ""; c.appendWithFormat("Has usado %s y le ha quitado %d PV al enemigo!", Atlas_Spell::createSpell(0)->getName(),damageDealt);
 			_consolePlayerText->setPosition(280, 70);
 			_consoleEnemyText->setPosition(280, 30);
 			_consolePlayerText->setString(c.getCString());
@@ -298,7 +375,7 @@ void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d
 
 void BattleScene::returnToMapScene(Ref *pSender){
 	
-	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
+	CCUserDefault::sharedUserDefault()->setBoolForKey("loadPlayer", true);
 	Director::getInstance()->popScene();
 }
 
@@ -347,4 +424,48 @@ void BattleScene::addLightDefensePoint(){
 
 void BattleScene::addDarkDefensePoint(){
 	player->addDefensePoint(5);
+}
+
+void BattleScene::loadPlayer(){
+	player->setHpCurrent(CCUserDefault::sharedUserDefault()->getIntegerForKey("playerHealth"));
+	player->availablePoints = (CCUserDefault::sharedUserDefault()->getIntegerForKey("points"));
+	player->setLevel(CCUserDefault::sharedUserDefault()->getIntegerForKey("level"));
+	player->setExperience(CCUserDefault::sharedUserDefault()->getIntegerForKey("expPoints"));
+
+
+	player->setDamages(0, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_0"));
+	player->setDamages(1, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_1"));
+	player->setDamages(2, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_2"));
+	player->setDamages(3, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_3"));
+	player->setDamages(4, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_4"));
+	player->setDamages(5, CCUserDefault::sharedUserDefault()->getFloatForKey("damage_5"));
+
+	player->setDefenses(0, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_0"));
+	player->setDefenses(1, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_1"));
+	player->setDefenses(2, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_2"));
+	player->setDefenses(3, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_3"));
+	player->setDefenses(4, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_4"));
+	player->setDefenses(5, CCUserDefault::sharedUserDefault()->getFloatForKey("defense_5"));
+}
+
+void BattleScene::savePlayer(){
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("playerHealth", player->getHp());
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("points", player->availablePoints);
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("level", player->getLevel());
+	CCUserDefault::sharedUserDefault()->setIntegerForKey("expPoints", player->getExperience());
+
+
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_0", player->getDamages(0));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_1", player->getDamages(1));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_2", player->getDamages(2));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_3", player->getDamages(3));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_4", player->getDamages(4));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("damage_5", player->getDamages(5));
+
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_0", player->getDefenses(0));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_1", player->getDefenses(1));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_2", player->getDefenses(2));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
+	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
 }

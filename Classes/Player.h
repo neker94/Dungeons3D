@@ -34,7 +34,13 @@ public:
 	Cooldown *getCooldown();
 	bool doesLevelUp();
 	void levelUp();
+	int getExperience();
+	void setExperience(int expe);
+	int getLevel();
+	void setLevel(int l);
+	int expUntilNLvl();
 	int availablePoints;
+
 private:
 	int posX;
 	int posY;

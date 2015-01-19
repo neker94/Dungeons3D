@@ -1,4 +1,4 @@
-#ifndef GLOBAL_H // header guards
+/*#ifndef GLOBAL_H // header guards
 #define GLOBAL_H
 #include "Player.h"
 #include "cocos2d.h"
@@ -12,4 +12,4 @@ static cocos2d::Sprite *_healthBox;
 static cocos2d::Sprite *_mana;
 static cocos2d::Sprite *_manaBox;
 
-#endif
+#endif*/

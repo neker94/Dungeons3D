@@ -11,6 +11,8 @@ public:
 	void init();
 	void imagesToShow(const char *output [3]);
 	void setPlayer(Player *p);
+	bool playerEnds();
+	int distance();
 	bool canMove();
 
 private:
@@ -19,5 +21,9 @@ private:
 	const char *getImage(int cell_X, int cell_Y, int view_dir);
 	bool inMap(int cord_X, int cord_Y);
 	int turnLeft(int view_dir);
+
+	int endX;
+	int endY;
+
 };
 

@@ -29,13 +29,18 @@ public:
 	void addLightDefensePoint();
 	void addDarkDefensePoint();
 
+	void loadPlayer();
+	void savePlayer();
+
 	void goToBattleScene(Ref *pSender);
+	void goToGameOverScene(Ref *pSender);
 
 private:
 	const char *images [3];
 	Player *player;
 	Dungeon dungeon;
 	MiniMap minimap;
+	bool load;
 
 	int steps;
 	int _originBoxesX;
@@ -74,6 +79,9 @@ private:
 
 	cocos2d::LabelTTF *_attackAttributes[6];
 	cocos2d::LabelTTF *_defenseAttributes[6];
+
+	cocos2d::LabelTTF *_playerInfo;
+	cocos2d::LabelTTF *_endInfo;
 
 	void rotateLeft();
 	void rotateRight();

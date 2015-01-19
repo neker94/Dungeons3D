@@ -11,8 +11,8 @@ public:
 		case 0:
 			spell->init();
 			spell->setIndex(index);
-			spell->setName("Tu madre en bragas");
-			spell->setDescription("Ale");
+			spell->setName("Golpe furioso");
+			spell->setDescription("¿Estas cabreado verdad?");
 			spell->setElementalPower(spell->PHYSIC, 10);
 			spell->setManaCost(5);
 			spell->setTime(0.5f);
