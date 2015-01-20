@@ -31,7 +31,7 @@ public:
 			spell->setIndex(index);
 			spell->setName("Erupción");
 			spell->setDescription("Remueve la tierra para liberar un volcán de fuego");
-			spell->setElementalPower(spell->FIRE, 50);
+			spell->setElementalPower(spell->FIRE, 20);
 			spell->setManaCost(25);
 			spell->setTime(2.8f);
 			break;
@@ -50,7 +50,7 @@ public:
 			spell->setIndex(index);
 			spell->setName("Calcinación");
 			spell->setDescription("Incinera cualquier forma de vida en los alrederores");
-			spell->setElementalPower(spell->FIRE, 120);
+			spell->setElementalPower(spell->FIRE, 25);
 			spell->setManaCost(70);
 			spell->setTime(4.4f);
 			break;
@@ -59,7 +59,7 @@ public:
 			spell->setIndex(index);
 			spell->setName("Poder de Hefesto");
 			spell->setDescription("Invoca al dios Hefesto para que cargue contra los enemigos");
-			spell->setElementalPower(spell->FIRE, 150);
+			spell->setElementalPower(spell->FIRE, 10);
 			spell->setElementalPower(spell->THUNDER, 30);
 			spell->setElementalPower(spell->PHYSIC,20);
 			spell->setManaCost(100);

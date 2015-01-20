@@ -19,6 +19,12 @@ private:
 	/*-----MENU ELEMENTS-----*/
 	bool winner;
 	cocos2d::LabelTTF *_gameOverText;
+
+	cocos2d::MenuItemLabel *_restartButton;
+	cocos2d::LabelTTF *_restartLabel;
+
+	cocos2d::MenuItemLabel *_returnButton;
+	cocos2d::LabelTTF *_returnLabel;
 };
 
 #endif // __MAP_SCENE_H__

@@ -12,7 +12,7 @@ Player::Player()
 
 	level = 1;
 	expPoints = 0;
-
+	availablePoints = 0;
 	setHpMax(200);
 	setHpCurrent(getHpMax());
 	
@@ -127,7 +127,7 @@ bool Player::doesLevelUp(){
 
 void Player::levelUp(){
 	hp_max+=10;
-	availablePoints = 5;
+	availablePoints += 5;
 	level++;
 	switch(level){
 	case 2: spells.push_back(2); break;

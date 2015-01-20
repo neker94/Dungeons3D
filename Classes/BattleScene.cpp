@@ -233,8 +233,39 @@ bool BattleScene::init(){
 	_playerInfo->setPosition(645, 490);
 	this->addChild(_playerInfo, 3);
 
+	for (int i = 0; i < 6; i++)
+	{
+		_attackLabels[i] = LabelTTF::create( Atlas_Spell::createSpell(i)->getName(), "Helvetica", 20, CCSizeMake(245, 20), kCCTextAlignmentLeft);
+	}
+	row = 0;
+	originY = -20;
+	originX = 330;
+	_attackButtons[row] = MenuItemLabel::create(_attackLabels[row], CC_CALLBACK_0(BattleScene::ThrowSpell0, this));
+	_attackButtons[row]->setPosition(originX, originY - 22 * row);
+	row++;
+	_attackButtons[row] = MenuItemLabel::create(_attackLabels[row], CC_CALLBACK_0(BattleScene::ThrowSpell1, this));
+	_attackButtons[row]->setPosition(originX, originY - 22 * row);
+	row++;
+	_attackButtons[row] = MenuItemLabel::create(_attackLabels[row], CC_CALLBACK_0(BattleScene::ThrowSpell2, this));
+	_attackButtons[row]->setPosition(originX, originY - 22 * row);
+	row++;
+	_attackButtons[row] = MenuItemLabel::create(_attackLabels[row], CC_CALLBACK_0(BattleScene::ThrowSpell3, this));
+	_attackButtons[row]->setPosition(originX, originY - 22 * row);
+	row++;
+	_attackButtons[row] = MenuItemLabel::create(_attackLabels[row], CC_CALLBACK_0(BattleScene::ThrowSpell4, this));
+	_attackButtons[row]->setPosition(originX, originY - 22 * row);
+	row++;
+	_attackButtons[row] = MenuItemLabel::create(_attackLabels[row], CC_CALLBACK_0(BattleScene::ThrowSpell5, this));
+	_attackButtons[row]->setPosition(originX, originY - 22 * row);
+	row++;
+	_healLabel = LabelTTF::create("Heal", "Helvetica", 20, CCSizeMake(245, 20), kCCTextAlignmentLeft);
+	_healButton = MenuItemLabel::create(_healLabel, CC_CALLBACK_0(BattleScene::Heal, this));
+	_healButton->setPosition(originX, originY - 22 * row);
+
 	auto menu = Menu::create( attack_attributes_buttons[0], attack_attributes_buttons[1], attack_attributes_buttons[2], attack_attributes_buttons[3], attack_attributes_buttons[4], attack_attributes_buttons[5], 
-		defense_attributes_buttons[0], defense_attributes_buttons[1], defense_attributes_buttons[2], defense_attributes_buttons[3], defense_attributes_buttons[4], defense_attributes_buttons[5], NULL);
+		defense_attributes_buttons[0], defense_attributes_buttons[1], defense_attributes_buttons[2], defense_attributes_buttons[3], defense_attributes_buttons[4], defense_attributes_buttons[5], 
+		_attackButtons[0], _attackButtons[1], _attackButtons[2], _attackButtons[3], _attackButtons[4], _attackButtons[5],
+		_healButton, NULL);
 
 	this->addChild(menu, 3);
 	//Enemy sprite
@@ -285,6 +316,8 @@ void BattleScene::update(float dt){
 			_consoleEnemyText->setPosition(280, 70);
 			_consolePlayerText->setPosition(280, 30);
 			_consoleEnemyText->setString(c.getCString());
+
+			
 		}
 		if(player->getHp() <= 0){
 			player->setHpCurrent(0);
@@ -347,30 +380,8 @@ void BattleScene::update(float dt){
 
 void BattleScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event){
 	//Hace la accion correspondiente a la tecla pulsada
-	
 	if(keyCode == EventKeyboard::KeyCode::KEY_E)
 		returnToMapScene(this);
-	if(keyCode == EventKeyboard::KeyCode::KEY_Q)
-		if(player->getCooldown()->isCompleted()){
-			float dmgs [6];
-			int damageDealt = _enemy->getHp();
-			player->doDamage(0, dmgs);
-			_enemy->takeDamage(dmgs);
-			damageDealt -= _enemy->getHp();
-			_enemyDamageText->setPosition(260+rand()%80, 285+rand()%30);
-			_enemyDamageText->setOpacity(255);
-			itoa(damageDealt, text, 10);
-			_enemyDamageText->setString(text);
-
-			String c = ""; c.appendWithFormat("Has usado %s y le ha quitado %d PV al enemigo!", Atlas_Spell::createSpell(0)->getName(),damageDealt);
-			_consolePlayerText->setPosition(280, 70);
-			_consoleEnemyText->setPosition(280, 30);
-			_consolePlayerText->setString(c.getCString());
-			
-			
-		}
-	if(keyCode == EventKeyboard::KeyCode::KEY_H)
-		player->setHpCurrent(player->getHp()+(player->getHpMax()-player->getHp())/3+5);
 }
 
 void BattleScene::returnToMapScene(Ref *pSender){
@@ -424,6 +435,48 @@ void BattleScene::addLightDefensePoint(){
 
 void BattleScene::addDarkDefensePoint(){
 	player->addDefensePoint(5);
+}
+
+void BattleScene::ThrowSpell0(){
+	ThrowSpell(0);
+}
+void BattleScene::ThrowSpell1(){
+	ThrowSpell(1);
+}
+void BattleScene::ThrowSpell2(){
+	ThrowSpell(2);
+}
+void BattleScene::ThrowSpell3(){
+	ThrowSpell(3);
+}
+void BattleScene::ThrowSpell4(){
+	ThrowSpell(4);
+}
+void BattleScene::ThrowSpell5(){
+	ThrowSpell(5);
+}
+
+void BattleScene::ThrowSpell(int s){
+	if(player->getCooldown()->isCompleted()){
+		float dmgs [6];
+		int damageDealt = _enemy->getHp();
+		player->doDamage(s, dmgs);
+		_enemy->takeDamage(dmgs);
+		damageDealt -= _enemy->getHp();
+		_enemyDamageText->setPosition(260+rand()%80, 285+rand()%30);
+		_enemyDamageText->setOpacity(255);
+		itoa(damageDealt, text, 10);
+		_enemyDamageText->setString(text);
+
+		String c = ""; c.appendWithFormat("Has usado %s y le ha quitado %d PV al enemigo!", Atlas_Spell::createSpell(s)->getName(),damageDealt);
+		_consolePlayerText->setPosition(280, 70);
+		_consoleEnemyText->setPosition(280, 30);
+		_consolePlayerText->setString(c.getCString());
+	}
+}
+
+void BattleScene::Heal(){
+	player->setHpCurrent(player->getHp()+(player->getHpMax()-player->getHp())/3+5);
 }
 
 void BattleScene::loadPlayer(){

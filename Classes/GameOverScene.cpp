@@ -37,12 +37,23 @@ bool GameOverScene::init()
 	this->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this); //Pone el generador de eventos en el 'receptor' de eventos
 
 	if(CCUserDefault::sharedUserDefault()->getBoolForKey("winner"))
-		_gameOverText = LabelTTF::create("CONGRATULATIONS\nYOU WIN!", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentCenter);
+		_gameOverText = LabelTTF::create("CONGRATULATIONS\nYOU WIN!", "Helvetica", 30, CCSizeMake(300, 100), kCCTextAlignmentCenter);
 	else
-		_gameOverText = LabelTTF::create("YOU LOSER...", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentCenter);
+		_gameOverText = LabelTTF::create("YOU LOSE...", "Helvetica", 30, CCSizeMake(300, 100), kCCTextAlignmentCenter);
 
 	_gameOverText->setPosition(visibleSize.width/2, visibleSize.height/2);
 	this->addChild(_gameOverText);
+
+	_restartLabel = LabelTTF::create("RESTART", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentCenter);
+	_restartButton = MenuItemLabel::create(_restartLabel, CC_CALLBACK_1(GameOverScene::restart, this));
+	_restartButton->setPosition(0, -100);
+
+	_returnLabel = LabelTTF::create("MAIN MENU", "Helvetica", 20, CCSizeMake(245, 100), kCCTextAlignmentCenter);
+	_returnButton = MenuItemLabel::create(_returnLabel, CC_CALLBACK_1(GameOverScene::goToMainMenu, this));
+	_returnButton->setPosition(0, -130);
+
+	auto menu = Menu::create(_restartButton, _returnButton, NULL);
+	this->addChild(menu);
 
     return true;
 }

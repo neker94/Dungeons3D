@@ -563,4 +563,8 @@ void MapScene::savePlayer(){
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_3", player->getDefenses(3));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_4", player->getDefenses(4));
 	CCUserDefault::sharedUserDefault()->setFloatForKey("defense_5", player->getDefenses(5));
+
+	/*CCUserDefault::sharedUserDefault()->setStringForKey("layer_0", images[0]);
+	CCUserDefault::sharedUserDefault()->setStringForKey("layer_1", images[1]);
+	CCUserDefault::sharedUserDefault()->setStringForKey("layer_2", images[2]);*/
 }

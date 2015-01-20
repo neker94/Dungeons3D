@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "CooldownQueue.h"
 #include "Atlas_Enemy.h"
+#include <iostream>
 
 class BattleScene : public cocos2d::Layer
 {
@@ -30,6 +31,16 @@ public:
 	void addLightningDefensePoint();
 	void addLightDefensePoint();
 	void addDarkDefensePoint();
+
+	void ThrowSpell0();
+	void ThrowSpell1();
+	void ThrowSpell2();
+	void ThrowSpell3();
+	void ThrowSpell4();
+	void ThrowSpell5();
+
+	void ThrowSpell(int s);
+	void Heal();
 	
 	void loadPlayer();
 	void savePlayer();
@@ -70,9 +81,14 @@ private:
 	cocos2d::Sprite *defense_attributes_image [6];
 	cocos2d::MenuItemImage *defense_attributes_buttons [6];
 
-
 	cocos2d::LabelTTF *_attackAttributes[6];
 	cocos2d::LabelTTF *_defenseAttributes[6];
+
+	cocos2d::MenuItemLabel *_attackButtons[6];
+	cocos2d::LabelTTF *_attackLabels[6];
+
+	cocos2d::MenuItemLabel *_healButton;
+	cocos2d::LabelTTF *_healLabel;
 
 	cocos2d::LabelTTF *_playerInfo;
 
